@@ -1,4 +1,5 @@
 # Global file for shiny app
+rm(list = ls())
 
 # Load libraries ---------------
 library(readxl)
@@ -21,6 +22,9 @@ library(tidyr)
 library(purrr)
 library(janitor)
 library(DT)
+library(shiny)
+library(shinyWidgets)
+library(shinydashboard)
 
 # Root path -----------
 # Determine root path for  shared drive on R Workbench
@@ -49,3 +53,32 @@ define_root_path <- function(){
 }
 
 root_path <- define_root_path()
+
+# Load dummy census data ------
+census_df <- readRDS(
+  file = paste0(root_path,
+                "HSPI-PM/Operations Analytics and Optimization",
+                "/Projects/System Operations/Kronos Analytics",
+                "/Data/Dummy Data/",
+                "MSQ_Dummy_Census_06072023.RDS")
+)
+
+sites <- unique(census_df$Site)
+
+departments <- unique(census_df$Department)
+
+dates <- sort(unique(census_df$Date), decreasing = TRUE)
+
+hosp_summary_df <- census_df %>%
+  rename("Volume" = "Census") %>%
+  mutate("TotalWorkedHours" = NA,
+         "Worked FTE" = NA,
+         "WHpU" = NA,
+         "Total Paid Hours" = NA,
+         "Total Paid FTE" = NA,
+         "Total Overtime Hours" = NA,
+         "Total Nonproductive Hours" = NA,
+         "Total Agency Hours" = NA,
+         "Total Education & Orientation Hours" = NA,
+         "Total PTO Hours" = NA
+  )

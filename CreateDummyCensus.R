@@ -86,7 +86,8 @@ census_df <- expand.grid(
   "Site" = "MSQ",
   "Department" = msq_ip_dept,
   "Date" = dates,
-  "TimePull" = pull_time
+  "TimePull" = pull_time,
+  stringsAsFactors = FALSE
 )
 
 census_df <- census_df %>%
