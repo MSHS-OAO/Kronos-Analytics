@@ -22,7 +22,11 @@ server <- function(input, output) {
                     font_size = 11,
                     full_width = FALSE) %>%
       column_spec(column = c(1, 2, 5, 7, ncol(hosp_summary_table)),
-                  border_right = "thin solid lightgray")
+                  border_right = "thin solid lightgray") %>%
+      row_spec(row = 0,
+               bold = TRUE,
+               color = "white",
+               background = MountSinai_colors["dark purple"])
     
     
     # kable_styling(bootstrap_options = "hover", position = "center",

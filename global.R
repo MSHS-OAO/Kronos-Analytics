@@ -69,6 +69,8 @@ departments <- unique(census_df$Department)
 
 dates <- sort(unique(census_df$Date), decreasing = TRUE)
 
+shifts <- c("Day", "Night")
+
 hosp_summary_df <- census_df %>%
   rename("Volume" = "Census") %>%
   mutate("TotalWorkedHours" = NA,
