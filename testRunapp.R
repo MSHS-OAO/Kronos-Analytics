@@ -5,4 +5,4 @@ source("ui.R")
 source("server.R")
 
 shinyApp(ui, server)
-#by Sonjii
+# Test comment by Kate on new laptop.
