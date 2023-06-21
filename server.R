@@ -11,8 +11,8 @@ server <- function(input, output) {
     hosp_summary_table <<- hosp_summary_df %>%
       filter(Site %in% site_input,
              Date %in% date_input,
-             TimePull %in% 1) %>%
-      select(-Site, -TimePull, -Capacity, -Date)
+             Time %in% "8AM") %>%
+      select(-Site, -Time, -Capacity, -Date)
     
     kable(hosp_summary_table,
           escape = FALSE,

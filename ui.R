@@ -59,8 +59,8 @@ ui <- fluidPage(
                                pickerInput(
                                  "unit_retro_shift",
                                  label = "Select Shift",
-                                 choices = shifts,
-                                 selected = shifts[1],
+                                 choices = data_times,
+                                 selected = data_times[1],
                                  multiple = FALSE
                                )
                         )

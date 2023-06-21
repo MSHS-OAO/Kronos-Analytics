@@ -63,13 +63,64 @@ census_df <- readRDS(
                 "MSQ_Dummy_Census_06072023.RDS")
 )
 
+labor_df <- readRDS(
+  file = paste0(root_path,
+                "HSPI-PM/Operations Analytics and Optimization",
+                "/Projects/System Operations/Kronos Analytics",
+                "/Data/Dummy Data/",
+                "MSQ_Dummy_Labor_06122023.RDS")
+)
+
 sites <- unique(census_df$Site)
 
 departments <- unique(census_df$Department)
 
 dates <- sort(unique(census_df$Date), decreasing = TRUE)
 
-shifts <- c("Day", "Night")
+# shifts <- c("Day", "Evening", "Night")
+data_times <- c("8AM", "4PM", "8PM", "11PM")
+
+datapulls <- data.frame("TimePull" = c(1, 2, 3, 4),
+                        "Time" = c("8AM", "4PM", "8PM", "11PM"))
+
+census_df <- left_join(census_df, datapulls, by = c("TimePull" = "TimePull"))
+
+census_df <- census_df %>%
+  select(-TimePull)
+
+labor_df <- labor_df %>%
+  mutate(TimePull = as.integer(TimePull))
+
+labor_df <- left_join(labor_df, datapulls, by = c("TimePull" = "TimePull"))
+
+labor_df <- labor_df %>%
+  select(-TimePull)
+
+labor_summary <- labor_df %>%
+  group_by(Department, Date, Time, PAYCODE_CATEGORY) %>%
+  summarize(TotalHours = sum(Hours, na.rm = TRUE)) %>%
+  group_split() %>%
+  map_df(., function(x) {
+    pivot_wider(x,
+                names_from = PAYCODE_CATEGORY,
+                values_from = TotalHours) %>%
+      adorn_totals(where = "col", name = "TOTAL") %>%
+      pivot_longer(cols = !c(Department, Date, Time),
+                   names_to = "Paycode_Category",
+                   values_to = "TotalHours")
+  }
+  )
+
+labor_summary2 <- labor_df %>%
+  group_by(Department, Date, Time, PAYCODE_CATEGORY) %>%
+  summarize(TotalHours = sum(Hours, na.rm = TRUE)) %>%
+  pivot_wider(names_from = PAYCODE_CATEGORY,
+              values_from = TotalHours) %>%
+  adorn_totals(where = "col", name = "TOTAL") %>%
+  pivot_longer(cols = !c(Department, Date, Time),
+               names_to = "Paycode_Category",
+               values_to = "TotalHours") %>%
+  mutate(TotalHours = replace_na(TotalHours, 0))
 
 hosp_summary_df <- census_df %>%
   rename("Volume" = "Census") %>%
@@ -81,9 +132,11 @@ hosp_summary_df <- census_df %>%
          "Total Overtime Hours" = NA,
          "Total Nonproductive Hours" = NA,
          "Total Agency Hours" = NA,
-         "Total Education & Orientation Hours" = NA,
+         # "Total Education & Orientation Hours" = NA,
          "Total PTO Hours" = NA
   ) 
+
+
 
 # MSHS Colors -----
 
