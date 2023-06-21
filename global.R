@@ -71,6 +71,14 @@ labor_df <- readRDS(
                 "MSQ_Dummy_Labor_06122023.RDS")
 )
 
+paycode_mappings <- read_excel(
+  path = paste0(root_path,
+                "HSPI-PM/Operations Analytics and Optimization",
+                "/Projects/System Operations/Kronos Analytics",
+                "/Data/",
+                "PaycodeMapping_2023-06-21.xlsx")
+)
+
 sites <- unique(census_df$Site)
 
 departments <- unique(census_df$Department)
@@ -97,46 +105,29 @@ labor_df <- labor_df %>%
   select(-TimePull)
 
 labor_summary <- labor_df %>%
-  group_by(Department, Date, Time, PAYCODE_CATEGORY) %>%
-  summarize(TotalHours = sum(Hours, na.rm = TRUE)) %>%
-  group_split() %>%
-  map_df(., function(x) {
-    pivot_wider(x,
-                names_from = PAYCODE_CATEGORY,
-                values_from = TotalHours) %>%
-      adorn_totals(where = "col", name = "TOTAL") %>%
-      pivot_longer(cols = !c(Department, Date, Time),
-                   names_to = "Paycode_Category",
-                   values_to = "TotalHours")
-  }
-  )
-
-labor_summary2 <- labor_df %>%
-  group_by(Department, Date, Time, PAYCODE_CATEGORY) %>%
+  group_by(Site, Department, Date, Time, PAYCODE_CATEGORY) %>%
   summarize(TotalHours = sum(Hours, na.rm = TRUE)) %>%
   pivot_wider(names_from = PAYCODE_CATEGORY,
               values_from = TotalHours) %>%
   adorn_totals(where = "col", name = "TOTAL") %>%
-  pivot_longer(cols = !c(Department, Date, Time),
+  pivot_longer(cols = !c(Site, Department, Date, Time),
                names_to = "Paycode_Category",
                values_to = "TotalHours") %>%
   mutate(TotalHours = replace_na(TotalHours, 0))
 
-hosp_summary_df <- census_df %>%
-  rename("Volume" = "Census") %>%
-  mutate("TotalWorkedHours" = NA,
-         "Worked FTE" = NA,
-         "WHpU" = NA,
-         "Total Paid Hours" = NA,
-         "Total Paid FTE" = NA,
-         "Total Overtime Hours" = NA,
-         "Total Nonproductive Hours" = NA,
-         "Total Agency Hours" = NA,
-         # "Total Education & Orientation Hours" = NA,
-         "Total PTO Hours" = NA
-  ) 
-
-
+# hosp_summary_df <- census_df %>%
+#   rename("Volume" = "Census") %>%
+#   mutate("TotalWorkedHours" = NA,
+#          "Worked FTE" = NA,
+#          "WHpU" = NA,
+#          "Total Paid Hours" = NA,
+#          "Total Paid FTE" = NA,
+#          "Total Overtime Hours" = NA,
+#          "Total Nonproductive Hours" = NA,
+#          "Total Agency Hours" = NA,
+#          # "Total Education & Orientation Hours" = NA,
+#          "Total PTO Hours" = NA
+#   ) 
 
 # MSHS Colors -----
 
