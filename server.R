@@ -105,74 +105,101 @@ server <- function(input, output) {
                      escape = FALSE)
   }
   
-  output$retro_staff_vol_graph_skill <- renderPlot({
+  # output$unit_retro_radio_button <- renderText("Select Breakdown:")
+  
+  # Graph for staffing to volume by skill -------------
+  output$retro_staff_vol_graph <- renderPlot({
     
     site_input <- input$unit_retro_site
     
     dept_input <- input$unit_retro_dept
     
     date_input <- as.Date(input$unit_retro_date, format = "%m/%d/%y")
-
-    labor_df_skill <- labor_df %>%
+    
+    strat <- input$unit_retro_metric
+    
+    labor_df_filter <- labor_df %>%
       filter(Site %in% site_input,
              Department %in% dept_input,
-             Date %in% date_input) %>%
-      group_by(Time, JOB_CATEGORY) %>%
-      summarize(TotalHours = sum(Hours, na.rm = TRUE)) %>%
-      mutate(Time = factor(Time, levels = data_times, ordered = TRUE)) %>%
-      arrange(Time, JOB_CATEGORY)
+             Date %in% date_input)
     
-    vol_df <- census_df %>%
+    if (strat == "By Skill") {
+      labor_df_filter <- labor_df_filter %>%
+        group_by(Time, JOB_CATEGORY) %>%
+        summarize(TotalHours = sum(Hours, na.rm = TRUE)) %>%
+        rename(Stratification = JOB_CATEGORY)
+    } else{
+      labor_df_filter <- left_join(labor_df_filter,
+                                   paycode_mappings %>%
+                                     select(Paycode, Description),
+                                   by = c("PAYCODE_CATEGORY" = "Paycode"))
+      
+      labor_df_filter <- labor_df_filter %>%
+        group_by(Time, Description) %>%
+        summarize(TotalHours = sum(Hours, na.rm = TRUE)) %>%
+        rename(Stratification = Description)
+    }
+    
+    labor_df_filter <- labor_df_filter %>%
+      mutate(Time = factor(Time, levels = data_times, ordered = TRUE)) %>%
+      arrange(Time, Stratification)
+    
+    vol_df_filter <- census_df %>%
       filter(Site %in% site_input,
              Department %in% dept_input,
              Date %in% date_input) %>%
       select(Time, Census, Capacity)
     
-    scale <- unique(vol_df$Capacity) /
-      max(labor_df_skill %>%
+    scale_factor <- unique(vol_df_filter$Capacity) /
+      max(labor_df_filter %>%
             group_by(Time) %>%
             summarize(TotalHours = sum(TotalHours, na.rm = TRUE)) %>%
             select(TotalHours))
-      
-    # ggplot() +
-    ggplot(data = labor_df_skill,
-           mapping = aes(x = Time, y = TotalHours)) +
-      geom_col(data = labor_df_skill,
+    
+    ggplot() +
+      geom_col(data = labor_df_filter,
                mapping = aes(x = Time,
                              y = TotalHours,
-                             color = JOB_CATEGORY,
-                             fill = JOB_CATEGORY,
-                             group = JOB_CATEGORY),
+                             color = Stratification,
+                             fill = Stratification,
+                             group = Stratification),
                width = 0.5) +
-      geom_text(#data = labor_df_skill,
-                aes(#x = Time,
+      geom_text(data = labor_df_filter,
+                aes(x = Time,
                     y = TotalHours,
                     label = TotalHours,
-                    group = JOB_CATEGORY),
+                    group = Stratification),
                 position = position_stack(vjust = 0.5),
-                color = "white") +
+        color = "white") +
       scale_color_MountSinai(palette = "main",
-                             name = "Job Category") +
+                             name = ifelse(input$unit_retro_metric == "By Skill",
+                                           "Job Category",
+                                           "Paycode")) +
       scale_fill_MountSinai(palette = "main",
-                            name = "Job Category") +
-      geom_line(data = vol_df,
+                            name = ifelse(input$unit_retro_metric == "By Skill",
+                                          "Job Category",
+                                          "Paycode")) +
+      geom_line(data = vol_df_filter,
                 mapping = aes(x = Time,
-                              y = Census / scale,
+                              y = Census / scale_factor,
                               group = 1)) +
-      geom_point(data = vol_df,
+      geom_point(data = vol_df_filter,
                  mapping = aes(x = Time,
-                               y = Census / scale)) +
-      geom_text(data = vol_df,
-                aes(y = Census / scale,
+                               y = Census / scale_factor)) +
+      geom_text(data = vol_df_filter,
+                aes(x = Time,
+                    y = Census / scale_factor,
                     label = Census),
                 color = "black",
                 hjust = -0.5,
                 vjust = 1.5) +
       scale_y_continuous(
-        sec.axis = sec_axis(trans = ~ . * scale,
+        sec.axis = sec_axis(trans = ~ . * scale_factor,
                             name = "Census")
       ) +
-      labs(title = paste0("Staff to Volume by Skill Mix on ",
+      labs(title = paste0("Staff to Volume ",
+                          input$unit_retro_metric,
+                          " ",
                           format(date_input, "%m/%d/%y")),
            x = "Time",
            y = "Total Hours") +
@@ -180,84 +207,96 @@ server <- function(input, output) {
     
   })
   
-  output$retro_staff_vol_graph_paycode <- renderPlot({
-
-    site_input <<- input$unit_retro_site
-
-    dept_input <<- input$unit_retro_dept
-
-    date_input <<- as.Date(input$unit_retro_date, format = "%m/%d/%y")
-
-    labor_df_paycode <- left_join(labor_df,
-                                  paycode_mappings %>%
-                                    select(Paycode, Description),
-                                  by = c("PAYCODE_CATEGORY" = "Paycode"))
+  # Table for staffing to volume ---------------
+  output$retro_staff_vol_table <- function() {
     
-    labor_df_paycode <<- labor_df_paycode %>%
+    site_input <- input$unit_retro_site
+    
+    dept_input <- input$unit_retro_dept
+    
+    date_input <- as.Date(input$unit_retro_date, format = "%m/%d/%y")
+    
+    strat <- input$unit_retro_metric
+    
+    # site_input <- "MSQ"
+    # dept_input <- "MSQ 2 EAST"
+    # date_input <- as.Date("5/10/23", format = "%m/%d/%y")
+    # strat <- "By Paycode"
+    
+    vol_df_filter <- census_df %>%
       filter(Site %in% site_input,
              Department %in% dept_input,
              Date %in% date_input) %>%
-      group_by(Time, Description) %>%
-      summarize(TotalHours = sum(Hours, na.rm = TRUE)) %>%
       mutate(Time = factor(Time, levels = data_times, ordered = TRUE)) %>%
-      arrange(Time, Description)
-
-    vol_df <<- census_df %>%
+      arrange(Time) %>%
+      pivot_wider(names_from = Time,
+                  values_from = Census) %>%
+      select(-Site) %>%
+      mutate(Metric = "Census",
+             Stratification = paste0("Dept Capacity: ", Capacity)) %>%
+      relocate(Metric) %>%
+      relocate(Stratification, .after = Metric) %>%
+      select(-Department, -Date, -Capacity)
+    
+    labor_df_filter <- labor_df %>%
       filter(Site %in% site_input,
              Department %in% dept_input,
-             Date %in% date_input) %>%
-      select(Time, Census, Capacity)
-
-    scale <- unique(vol_df$Capacity) /
-      max(labor_df_paycode %>%
-            group_by(Time) %>%
-            summarize(TotalHours = sum(TotalHours, na.rm = TRUE)) %>%
-            select(TotalHours))
-
-    ggplot() +
-    # ggplot(data = labor_df_paycode,
-    #        mapping = aes(x = Time, y = TotalHours)) +
-      geom_col(data = labor_df_paycode,
-               mapping = aes(x = Time,
-                             y = TotalHours,
-                             color = Description,
-                             fill = Description,
-                             group = Description),
-               width = 0.5) #+
-      geom_text(#data = labor_df_skill,
-        aes(#x = Time,
-          y = TotalHours,
-          label = TotalHours,
-          group = Description),
-        position = position_stack(vjust = 0.5),
-        color = "white") +
-      scale_color_MountSinai(palette = "main",
-                             name = "Paycode Category") +
-      scale_fill_MountSinai(palette = "main",
-                            name = "Paycode Category") +
-      geom_line(data = vol_df,
-                mapping = aes(x = Time,
-                              y = Census / scale,
-                              group = 1)) +
-      geom_point(data = vol_df,
-                 mapping = aes(x = Time,
-                               y = Census / scale)) +
-      geom_text(data = vol_df,
-                aes(y = Census / scale,
-                    label = Census),
-                color = "black",
-                hjust = -0.5,
-                vjust = 1.5) +
-      scale_y_continuous(
-        sec.axis = sec_axis(trans = ~ . * scale,
-                            name = "Census")
-      ) +
-      labs(title = paste0("Staff to Volume by Paycode Category on ",
-                          format(date_input, "%m/%d/%y")),
-           x = "Time",
-           y = "Total Hours") +
-      theme(legend.position="bottom")
-
-  })
+             Date %in% date_input)
+    
+    if (strat == "By Skill") {
+      labor_df_filter <- labor_df_filter %>%
+        group_by(Time, JOB_CATEGORY) %>%
+        summarize(TotalHours = sum(Hours, na.rm = TRUE)) %>%
+        rename(Stratification = JOB_CATEGORY)
+    } else{
+      labor_df_filter <- left_join(labor_df_filter,
+                                   paycode_mappings %>%
+                                     select(Paycode, Description),
+                                   by = c("PAYCODE_CATEGORY" = "Paycode"))
+      
+      labor_df_filter <- labor_df_filter %>%
+        group_by(Time, Description) %>%
+        summarize(TotalHours = sum(Hours, na.rm = TRUE)) %>%
+        rename(Stratification = Description)
+    }
+    
+    labor_df_filter <- labor_df_filter %>%
+      mutate(Time = factor(Time, levels = data_times, ordered = TRUE)) %>%
+      arrange(Time, Stratification) %>%
+      pivot_wider(names_from = Time,
+                  values_from = TotalHours) %>%
+      adorn_totals(where = "row",
+                   name = "Total") %>%
+      mutate(Metric = "Paid Hours") %>%
+      relocate(Metric)
+    
+    vol_labor_df <- rbind(vol_df_filter, labor_df_filter)
+    
+    kable(vol_labor_df,
+          escape = FALSE,
+          align = "c",
+          col.names = c(" ", " ", "8AM", "4PM", "8PM", "11PM")) %>%
+      kable_styling(bootstrap_options = "hover",
+                    position = "center",
+                    font_size = 11,
+                    full_width = FALSE) %>%
+      column_spec(column = c(1, 2, ncol(vol_labor_df)),
+                  border_right = "thin solid lightgray") %>%
+      column_spec(column = 1,
+                  border_left = "thin solid lightgray") %>%
+      column_spec(column = 1,
+                  bold = TRUE,
+                  italic = TRUE,
+                  background = MountSinai_colors["med grey"],
+                  color = "white") %>%
+      row_spec(row = 0,
+               background = MountSinai_colors["dark purple"],
+               color = "white") %>%
+      row_spec(row = nrow(vol_labor_df),
+               bold = TRUE,
+               italic = TRUE) %>%
+      collapse_rows(columns = 1, valign = "top")
+    
+  }
   
 }
