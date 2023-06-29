@@ -6,6 +6,35 @@ date: "2023-06-29"
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+
+library(readxl)
+library(writexl)
+library(ggplot2)
+library(lubridate)
+library(dplyr)
+library(reshape2)
+library(svDialogs)
+library(stringr)
+library(formattable)
+library(scales)
+library(ggpubr)
+library(reshape2)
+library(knitr)
+library(kableExtra)
+library(rmarkdown)
+library(zipcodeR)
+library(tidyr)
+library(purrr)
+library(janitor)
+library(DT)
+library(shiny)
+library(shinyWidgets)
+library(shinydashboard)
+library(odbc)
+library(dbplyr)
+library(DBI)
+library(glue)
+library(knitr)
 ```
 
 ## Source test script
