@@ -3053,7 +3053,7 @@
       "GithubSha1": null,
       "description": {
         "Package": "pbkrtest",
-        "Version": "0.5.1",
+        "Version": "0.5.2",
         "Title": "Parametric Bootstrap, Kenward-Roger and Satterthwaite Based\nMethods for Test in Mixed Models",
         "Authors@R": "c(\n    person(given = \"Ulrich\", family = \"Halekoh\",\n        email = \"uhalekoh@health.sdu.dk\", role = c(\"aut\", \"cph\")),\n    person(given = \"Søren\", family = \"Højsgaard\",\n        email = \"sorenh@math.aau.dk\", role = c(\"aut\", \"cre\", \"cph\"))\n  )",
         "Maintainer": "Søren Højsgaard <sorenh@math.aau.dk>",
@@ -5410,13 +5410,13 @@
   },
   "files": {
     "CensusDatabaseRefreshTesting.html": {
-      "checksum": "d10b89ef6bc563de5eae6f3e9a0fe57f"
+      "checksum": "af245377606b152386dbb29f71a88019"
     },
     "CensusDatabaseRefreshTesting.Rmd": {
       "checksum": "4b8593e061dd30238fe4411777ab0903"
     },
     "CensusDatabaseTesting.R": {
-      "checksum": "c32065406dab44c678c339089fc43faa"
+      "checksum": "c1a558b47c3555937c7d241346f36fa4"
     },
     "CreateDummyCensus.R": {
       "checksum": "95f2d31d4b52fa0d80404cfc8d2f2215"

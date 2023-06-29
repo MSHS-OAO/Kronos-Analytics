@@ -35,12 +35,12 @@
 # Root path -----------
 # Determine root path for  shared drive on R Workbench
 define_root_path <- function(){
-  #Check if directory is from R Workbench; starts with '/home'
-  if(grepl("^/home", dirname(getwd()))){
+  #Check if OS in Linux
+  if(Sys.info()['sysname'] == 'Linux'){
     #Check if mapped Sharedrvie starts at folder Presidents or deans
     ifelse(list.files("/SharedDrive/") == "Presidents",
            #Define prefix of path to share drive with R Workbench format
-           output <- "/SharedDrive/Presidents/", 
+           output <- "/SharedDrive/Presidents/",
            output <- "/SharedDrive/deans/Presidents/")
   }#Check if directory is from R Studio; starts with an uppercase letter than ':'
   else if(grepl("^[[:upper:]]+:", dirname(getwd()))){
@@ -53,10 +53,9 @@ define_root_path <- function(){
            #Define prefix of path to share drive with R Studio format
            output <- paste0(x, ":/Presidents/"),
            output <- paste0(x, ":/deans/Presidents/"))
-    
   }
   return(output)
-}
+} 
 
 root_path <- define_root_path()
 
