@@ -29,6 +29,7 @@ library(shinydashboard)
 library(odbc)
 library(dbplyr)
 library(DBI)
+library(glue)
 
 # Root path -----------
 # Determine root path for  shared drive on R Workbench
@@ -85,13 +86,13 @@ census_summary <- census_refresh %>%
   rename(SITE = HOSPITAL_AREA) %>%
   select(-CURRENT_DATE, -CURRENT_TIME)
 
-saveRDS(census_summary,
-        file = paste0(root_path,
-                      "HSPI-PM/Operations Analytics and Optimization/Projects/",
-                      "System Operations/Kronos Analytics/Data/Epic Clarity Census/",
-                      "EpicClarityCensusPull_",
-                      format(unique(census_summary$REFRESH_TIME), "%Y-%m-%d %H%M"),
-                      ".RDS"))
+# saveRDS(census_summary,
+#         file = paste0(root_path,
+#                       "HSPI-PM/Operations Analytics and Optimization/Projects/",
+#                       "System Operations/Kronos Analytics/Data/Epic Clarity Census/",
+#                       "EpicClarityCensusPull_",
+#                       format(unique(census_summary$REFRESH_TIME), "%Y-%m-%d %H%M"),
+#                       ".RDS"))
 
 get_values <- function(x, table_name){
   
@@ -152,5 +153,5 @@ print("before conn")
 oao_personal_conn <- dbConnect(odbc(),
                                    oao_personal_dsn)
     
-dbExecute(oao_personal_conn,all_data)
+# dbExecute(oao_personal_conn,all_data)
 
