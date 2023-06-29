@@ -27,6 +27,8 @@ library(shinyWidgets)
 library(shinydashboard)
 library(odbc)
 library(dbplyr)
+library(DBI)
+library(glue)
 
 # Root path -----------
 # Determine root path for  shared drive on R Workbench
