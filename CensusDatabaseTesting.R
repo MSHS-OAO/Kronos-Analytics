@@ -30,6 +30,7 @@ library(odbc)
 library(dbplyr)
 library(DBI)
 library(glue)
+library(knitr)
 
 # Root path -----------
 # Determine root path for  shared drive on R Workbench
