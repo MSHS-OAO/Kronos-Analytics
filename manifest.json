@@ -3,8 +3,8 @@
   "locale": "en_US",
   "platform": "4.2.3",
   "metadata": {
-    "appmode": "shiny",
-    "primary_rmd": null,
+    "appmode": "rmd-static",
+    "primary_rmd": "CensusDatabaseRefreshTesting.Rmd",
     "primary_html": null,
     "content_category": null,
     "has_parameters": false
@@ -3053,7 +3053,7 @@
       "GithubSha1": null,
       "description": {
         "Package": "pbkrtest",
-        "Version": "0.5.1",
+        "Version": "0.5.2",
         "Title": "Parametric Bootstrap, Kenward-Roger and Satterthwaite Based\nMethods for Test in Mixed Models",
         "Authors@R": "c(\n    person(given = \"Ulrich\", family = \"Halekoh\",\n        email = \"uhalekoh@health.sdu.dk\", role = c(\"aut\", \"cph\")),\n    person(given = \"Søren\", family = \"Højsgaard\",\n        email = \"sorenh@math.aau.dk\", role = c(\"aut\", \"cre\", \"cph\"))\n  )",
         "Maintainer": "Søren Højsgaard <sorenh@math.aau.dk>",
@@ -5413,28 +5413,16 @@
       "checksum": "d10b89ef6bc563de5eae6f3e9a0fe57f"
     },
     "CensusDatabaseRefreshTesting.Rmd": {
-      "checksum": "f9cce8468b74a909ab8ae462c31ef894"
+      "checksum": "4b8593e061dd30238fe4411777ab0903"
     },
     "CensusDatabaseTesting.R": {
-      "checksum": "dac525f446713318bb6dc8aaced59f3f"
+      "checksum": "c32065406dab44c678c339089fc43faa"
     },
     "CreateDummyCensus.R": {
       "checksum": "95f2d31d4b52fa0d80404cfc8d2f2215"
     },
-    "global.R": {
-      "checksum": "c54d8c8ea647c6d5f4387139c48cd998"
-    },
     "README.md": {
       "checksum": "85f539031da4eb755d01fad88353e2ce"
-    },
-    "server.R": {
-      "checksum": "c79537074c40479d33ac6d1ac829b832"
-    },
-    "testRunapp.R": {
-      "checksum": "7b727935ef3bb69fd1dc033a6973a7f7"
-    },
-    "ui.R": {
-      "checksum": "2f5a2472a8f1ef132e9e1e91197d5163"
     }
   },
   "users": null
