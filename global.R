@@ -58,15 +58,16 @@ define_root_path <- function(){
 
 root_path <- define_root_path()
 
-# Load dummy census data ------
-census_df <- readRDS(
-  file = paste0(root_path,
-                "HSPI-PM/Operations Analytics and Optimization",
-                "/Projects/System Operations/Kronos Analytics",
-                "/Data/Dummy Data/",
-                "MSQ_Dummy_Census_06072023.RDS")
-)
+# # Load dummy census data ------
+# census_df <- readRDS(
+#   file = paste0(root_path,
+#                 "HSPI-PM/Operations Analytics and Optimization",
+#                 "/Projects/System Operations/Kronos Analytics",
+#                 "/Data/Dummy Data/",
+#                 "MSQ_Dummy_Census_06072023.RDS")
+# )
 
+# Load dummy labor data
 labor_df <- readRDS(
   file = paste0(root_path,
                 "HSPI-PM/Operations Analytics and Optimization",
@@ -83,11 +84,45 @@ paycode_mappings <- read_excel(
                 "PaycodeMapping_2023-06-21.xlsx")
 )
 
-sites <- unique(census_df$Site)
+# Default values for filters --------
+# Connect to OAO Cloud Database census data
+oao_personal_dsn <- "OAO Cloud DB Kate"
+census_conn <- dbConnect(odbc(),
+                         oao_personal_dsn)
 
-departments <- unique(census_df$Department)
+census_tbl <- tbl(census_conn, "CENSUS_TEST")
 
-dates <- sort(unique(census_df$Date), decreasing = TRUE)
+site_choices <- census_tbl %>%
+  select(SITE) %>%
+  summarize(SITE = unique(SITE)) %>%
+  collect() %>%
+  arrange()
+
+# default_site <- site_choices$SITE[1]
+default_site <- "MOUNT SINAI QUEENS"
+  
+date_choices <- census_tbl %>%
+  filter(SITE == default_site) %>%
+  select(REFRESH_TIME) %>%
+  summarize(REFRESH_TIME = unique(REFRESH_TIME)) %>%
+  collect() %>%
+  mutate(DATE = date(REFRESH_TIME)) %>%
+  select(DATE) %>%
+  arrange(desc(DATE)) %>%
+  distinct()
+
+default_date <- date_choices$DATE[1]
+
+dept_choices <- census_tbl %>%
+  filter(SITE == default_site) %>%
+  select(DEPARTMENT) %>%
+  summarize(DEPARTMENT = unique(DEPARTMENT)) %>%
+  collect() %>%
+  arrange(DEPARTMENT)
+
+default_dept <- dept_choices$DEPARTMENT[1]
+
+dbDisconnect(census_conn)
 
 # shifts <- c("Day", "Evening", "Night")
 data_times <- c("8AM", "4PM", "8PM", "11PM")
@@ -95,10 +130,10 @@ data_times <- c("8AM", "4PM", "8PM", "11PM")
 datapulls <- data.frame("TimePull" = c(1, 2, 3, 4),
                         "Time" = c("8AM", "4PM", "8PM", "11PM"))
 
-census_df <- left_join(census_df, datapulls, by = c("TimePull" = "TimePull"))
-
-census_df <- census_df %>%
-  select(-TimePull)
+# census_df <- left_join(census_df, datapulls, by = c("TimePull" = "TimePull"))
+# 
+# census_df <- census_df %>%
+#   select(-TimePull)
 
 labor_df <- labor_df %>%
   mutate(TimePull = as.integer(TimePull))

@@ -4,13 +4,33 @@ server <- function(input, output) {
   
   output$hosp_summary_table <- function() {
     
-    site_input <- input$hosp_summary_site
+    # Connect to OAO Cloud Database to pull census data
+    oao_personal_dsn <- "OAO Cloud DB Kate"
+    census_conn <- dbConnect(odbc(),
+                             oao_personal_dsn)
     
-    date_input <- as.Date(input$hosp_summary_date, format = "%m/%d/%y")
+    census_tbl <- tbl(census_conn, "CENSUS_TEST")
+    
+    selected_site <- input$hosp_summary_site
+    
+    census_df <- census_tbl %>%
+      filter(SITE %in% selected_site) %>%
+      collect() %>%
+      rename(Site = SITE,
+             Department = DEPARTMENT,
+             Census = CENSUS) %>%
+      mutate(Date = date(REFRESH_TIME)) %>%
+      group_by(Date) %>%
+      filter(hour(REFRESH_TIME) == max(hour(REFRESH_TIME))) %>%
+      ungroup()
+    
+    dbDisconnect(census_conn)
+
+    selected_date <- as.Date(input$hosp_summary_date, format = "%m/%d/%y")
     
     labor_filter <- labor_df %>%
-      filter(Site %in% site_input,
-             Date %in% date_input,
+      filter(Site %in% selected_site,
+             Date %in% selected_date,
              Time %in% "11PM")
     
     labor_template <- expand_grid(
@@ -61,10 +81,10 @@ server <- function(input, output) {
     
 
     census_filter <- census_df %>%
-      filter(Site %in% site_input,
-             Date %in% date_input,
-             Time %in% "11PM") %>%
-      select(-Site, -Time, -Date, -Capacity)
+      filter(Site %in% selected_site,
+             Date %in% selected_date) %>%
+             # Time %in% "11PM") %>%
+      select(-Site, -REFRESH_TIME, -Date)
     
     hosp_summary_table <- left_join(census_filter,
                                     left_join(labor_paid_hrs,

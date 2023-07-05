@@ -9,8 +9,8 @@ ui <- fluidPage(
                                pickerInput(
                                  "hosp_summary_site",
                                  label = "Select Site",
-                                 choices = sites,
-                                 selected = sites[1],
+                                 choices = site_choices,
+                                 selected = default_site,
                                  multiple = TRUE
                                )
                         ),
@@ -18,8 +18,8 @@ ui <- fluidPage(
                                pickerInput(
                                  "hosp_summary_date",
                                  label = "Select Date",
-                                 choices = format(dates, "%m/%d/%y"),
-                                 selected = format(dates[1], "%m/%d/%y"),
+                                 choices = format(date_choices, "%m/%d/%y"),
+                                 selected = max(format(default_date, "%m/%d/%y")),
                                  multiple = FALSE
                                )
                         )
@@ -32,8 +32,8 @@ ui <- fluidPage(
                                pickerInput(
                                  "unit_retro_site",
                                  label = "Select Site",
-                                 choices = sites,
-                                 selected = sites[1],
+                                 choices = site_choices,
+                                 selected = default_site,
                                  multiple = FALSE
                                )
                         ),
@@ -41,8 +41,8 @@ ui <- fluidPage(
                                pickerInput(
                                  "unit_retro_dept",
                                  label = "Select Department",
-                                 choices = departments,
-                                 selected = departments[1],
+                                 choices = dept_choices,
+                                 selected = default_dept,
                                  multiple = FALSE
                                )
                         ),
@@ -50,8 +50,8 @@ ui <- fluidPage(
                                pickerInput(
                                  "unit_retro_date",
                                  label = "Select Date",
-                                 choices = format(dates, "%m/%d/%y"),
-                                 selected = format(dates[1], "%m/%d/%y"),
+                                 choices = format(date_choices, "%m/%d/%y"),
+                                 selected = format(default_date, "%m/%d/%y"),
                                  multiple = FALSE
                                )
                         )
