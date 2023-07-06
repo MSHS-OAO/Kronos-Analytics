@@ -58,33 +58,7 @@ define_root_path <- function(){
 
 root_path <- define_root_path()
 
-# # Load dummy census data ------
-# census_df <- readRDS(
-#   file = paste0(root_path,
-#                 "HSPI-PM/Operations Analytics and Optimization",
-#                 "/Projects/System Operations/Kronos Analytics",
-#                 "/Data/Dummy Data/",
-#                 "MSQ_Dummy_Census_06072023.RDS")
-# )
-
-# Load dummy labor data
-labor_df <- readRDS(
-  file = paste0(root_path,
-                "HSPI-PM/Operations Analytics and Optimization",
-                "/Projects/System Operations/Kronos Analytics",
-                "/Data/Dummy Data/",
-                "MSQ_Dummy_Labor_06122023.RDS")
-)
-
-paycode_mappings <- read_excel(
-  path = paste0(root_path,
-                "HSPI-PM/Operations Analytics and Optimization",
-                "/Projects/System Operations/Kronos Analytics",
-                "/Data/",
-                "PaycodeMapping_2023-06-21.xlsx")
-)
-
-# Default values for filters --------
+# Census connection and default filters --------
 # Connect to OAO Cloud Database census data
 oao_personal_dsn <- "OAO Cloud DB Kate"
 census_conn <- dbConnect(odbc(),
@@ -111,7 +85,7 @@ date_choices <- census_tbl %>%
   arrange(desc(DATE)) %>%
   distinct()
 
-default_date <- date_choices$DATE[1]
+default_date <- date_choices$DATE[2]
 
 dept_choices <- census_tbl %>%
   filter(SITE == default_site) %>%
@@ -124,49 +98,48 @@ default_dept <- dept_choices$DEPARTMENT[1]
 
 dbDisconnect(census_conn)
 
-# shifts <- c("Day", "Evening", "Night")
-data_times <- c("8AM", "4PM", "8PM", "11PM")
+# Import dummy labor data ------------------
+refresh_times <- data.frame("TimePull" = c(1, 2, 3, 4),
+                            "Time" = c("08:00AM", "04:00PM", "08:00PM", "11:00PM"))
 
-datapulls <- data.frame("TimePull" = c(1, 2, 3, 4),
-                        "Time" = c("8AM", "4PM", "8PM", "11PM"))
+# Load dummy labor data
+labor_df <- readRDS(
+  file = paste0(root_path,
+                "HSPI-PM/Operations Analytics and Optimization",
+                "/Projects/System Operations/Kronos Analytics",
+                "/Data/Dummy Data/",
+                "MSQ_Dummy_Labor_06122023.RDS")
+)
 
-# census_df <- left_join(census_df, datapulls, by = c("TimePull" = "TimePull"))
-# 
-# census_df <- census_df %>%
-#   select(-TimePull)
+paycode_mappings <- read_excel(
+  path = paste0(root_path,
+                "HSPI-PM/Operations Analytics and Optimization",
+                "/Projects/System Operations/Kronos Analytics",
+                "/Data/",
+                "PaycodeMapping_2023-06-21.xlsx")
+)
 
 labor_df <- labor_df %>%
   mutate(TimePull = as.integer(TimePull))
 
-labor_df <- left_join(labor_df, datapulls, by = c("TimePull" = "TimePull"))
+labor_df <- left_join(labor_df, refresh_times, by = c("TimePull" = "TimePull"))
 
 labor_df <- labor_df %>%
-  select(-TimePull)
+  select(-TimePull) %>%
+  mutate(Date = Date + (max(date_choices$DATE) - max(.$Date)),
+         Site = "MOUNT SINAI QUEENS")
 
-labor_summary <- labor_df %>%
-  group_by(Site, Department, Date, Time, PAYCODE_CATEGORY) %>%
-  summarize(TotalHours = sum(Hours, na.rm = TRUE)) %>%
-  pivot_wider(names_from = PAYCODE_CATEGORY,
-              values_from = TotalHours) %>%
-  adorn_totals(where = "col", name = "TOTAL") %>%
-  pivot_longer(cols = !c(Site, Department, Date, Time),
-               names_to = "Paycode_Category",
-               values_to = "TotalHours") %>%
-  mutate(TotalHours = replace_na(TotalHours, 0))
+# labor_summary <- labor_df %>%
+#   group_by(Site, Department, Date, Time, PAYCODE_CATEGORY) %>%
+#   summarize(TotalHours = sum(Hours, na.rm = TRUE)) %>%
+#   pivot_wider(names_from = PAYCODE_CATEGORY,
+#               values_from = TotalHours) %>%
+#   adorn_totals(where = "col", name = "TOTAL") %>%
+#   pivot_longer(cols = !c(Site, Department, Date, Time),
+#                names_to = "Paycode_Category",
+#                values_to = "TotalHours") %>%
+#   mutate(TotalHours = replace_na(TotalHours, 0))
 
-# hosp_summary_df <- census_df %>%
-#   rename("Volume" = "Census") %>%
-#   mutate("TotalWorkedHours" = NA,
-#          "Worked FTE" = NA,
-#          "WHpU" = NA,
-#          "Total Paid Hours" = NA,
-#          "Total Paid FTE" = NA,
-#          "Total Overtime Hours" = NA,
-#          "Total Nonproductive Hours" = NA,
-#          "Total Agency Hours" = NA,
-#          # "Total Education & Orientation Hours" = NA,
-#          "Total PTO Hours" = NA
-#   ) 
 
 # MSHS Colors -----
 

@@ -12,6 +12,7 @@ server <- function(input, output) {
     census_tbl <- tbl(census_conn, "CENSUS_TEST")
     
     selected_site <- input$hosp_summary_site
+    # selected_site <- "MOUNT SINAI QUEENS"
     
     census_df <- census_tbl %>%
       filter(SITE %in% selected_site) %>%
@@ -19,19 +20,23 @@ server <- function(input, output) {
       rename(Site = SITE,
              Department = DEPARTMENT,
              Census = CENSUS) %>%
-      mutate(Date = date(REFRESH_TIME)) %>%
+      mutate(NearestHour = round(REFRESH_TIME, units = "hours"),
+             Date = date(NearestHour),
+             Time = format(NearestHour, "%I:%M%p"),
+             Site = selected_site) %>%
       group_by(Date) %>%
-      filter(hour(REFRESH_TIME) == max(hour(REFRESH_TIME))) %>%
+      filter(Time == "08:00PM") %>%
       ungroup()
     
     dbDisconnect(census_conn)
 
     selected_date <- as.Date(input$hosp_summary_date, format = "%m/%d/%y")
+    # selected_date <- default_date
     
     labor_filter <- labor_df %>%
       filter(Site %in% selected_site,
              Date %in% selected_date,
-             Time %in% "11PM")
+             Time %in% "08:00PM")
     
     labor_template <- expand_grid(
       "Department" = unique(labor_filter$Department),
@@ -53,7 +58,7 @@ server <- function(input, output) {
       group_by(Department) %>%
       summarize(TotalPaidHrs = sum(Hours, na.rm = TRUE))
     
-    labor_worked_hrs <- labor_filter %>%
+    labor_worked_hrs <<- labor_filter %>%
       filter(InclWorkedHours) %>%
       group_by(Department, Description) %>%
       summarize(TotalWorkedHrs = sum(Hours, na.rm = TRUE)) %>%
@@ -84,7 +89,7 @@ server <- function(input, output) {
       filter(Site %in% selected_site,
              Date %in% selected_date) %>%
              # Time %in% "11PM") %>%
-      select(-Site, -REFRESH_TIME, -Date)
+      select(-Site, -REFRESH_TIME, -NearestHour, -Date, -Time)
     
     hosp_summary_table <- left_join(census_filter,
                                     left_join(labor_paid_hrs,
@@ -125,24 +130,24 @@ server <- function(input, output) {
                      escape = FALSE)
   }
   
-  # output$unit_retro_radio_button <- renderText("Select Breakdown:")
-  
+  output$unit_retro_radio_button <- renderText("Select Breakdown:")
+
   # Graph for staffing to volume by skill -------------
   output$retro_staff_vol_graph <- renderPlot({
-    
+
     site_input <- input$unit_retro_site
-    
+
     dept_input <- input$unit_retro_dept
-    
+
     date_input <- as.Date(input$unit_retro_date, format = "%m/%d/%y")
-    
+
     strat <- input$unit_retro_metric
-    
+
     labor_df_filter <- labor_df %>%
       filter(Site %in% site_input,
              Department %in% dept_input,
              Date %in% date_input)
-    
+
     if (strat == "By Skill") {
       labor_df_filter <- labor_df_filter %>%
         group_by(Time, JOB_CATEGORY) %>%
@@ -153,29 +158,29 @@ server <- function(input, output) {
                                    paycode_mappings %>%
                                      select(Paycode, Description),
                                    by = c("PAYCODE_CATEGORY" = "Paycode"))
-      
+
       labor_df_filter <- labor_df_filter %>%
         group_by(Time, Description) %>%
         summarize(TotalHours = sum(Hours, na.rm = TRUE)) %>%
         rename(Stratification = Description)
     }
-    
+
     labor_df_filter <- labor_df_filter %>%
       mutate(Time = factor(Time, levels = data_times, ordered = TRUE)) %>%
       arrange(Time, Stratification)
-    
+
     vol_df_filter <- census_df %>%
       filter(Site %in% site_input,
              Department %in% dept_input,
              Date %in% date_input) %>%
       select(Time, Census, Capacity)
-    
+
     scale_factor <- unique(vol_df_filter$Capacity) /
       max(labor_df_filter %>%
             group_by(Time) %>%
             summarize(TotalHours = sum(TotalHours, na.rm = TRUE)) %>%
             select(TotalHours))
-    
+
     ggplot() +
       geom_col(data = labor_df_filter,
                mapping = aes(x = Time,
@@ -224,25 +229,25 @@ server <- function(input, output) {
            x = "Time",
            y = "Total Hours") +
       theme(legend.position="bottom")
-    
+
   })
-  
+
   # Table for staffing to volume ---------------
   output$retro_staff_vol_table <- function() {
-    
+
     site_input <- input$unit_retro_site
-    
+
     dept_input <- input$unit_retro_dept
-    
+
     date_input <- as.Date(input$unit_retro_date, format = "%m/%d/%y")
-    
+
     strat <- input$unit_retro_metric
-    
+
     # site_input <- "MSQ"
     # dept_input <- "MSQ 2 EAST"
     # date_input <- as.Date("5/10/23", format = "%m/%d/%y")
     # strat <- "By Paycode"
-    
+
     vol_df_filter <- census_df %>%
       filter(Site %in% site_input,
              Department %in% dept_input,
@@ -257,12 +262,12 @@ server <- function(input, output) {
       relocate(Metric) %>%
       relocate(Stratification, .after = Metric) %>%
       select(-Department, -Date, -Capacity)
-    
+
     labor_df_filter <- labor_df %>%
       filter(Site %in% site_input,
              Department %in% dept_input,
              Date %in% date_input)
-    
+
     if (strat == "By Skill") {
       labor_df_filter <- labor_df_filter %>%
         group_by(Time, JOB_CATEGORY) %>%
@@ -273,13 +278,13 @@ server <- function(input, output) {
                                    paycode_mappings %>%
                                      select(Paycode, Description),
                                    by = c("PAYCODE_CATEGORY" = "Paycode"))
-      
+
       labor_df_filter <- labor_df_filter %>%
         group_by(Time, Description) %>%
         summarize(TotalHours = sum(Hours, na.rm = TRUE)) %>%
         rename(Stratification = Description)
     }
-    
+
     labor_df_filter <- labor_df_filter %>%
       mutate(Time = factor(Time, levels = data_times, ordered = TRUE)) %>%
       arrange(Time, Stratification) %>%
@@ -289,9 +294,9 @@ server <- function(input, output) {
                    name = "Total") %>%
       mutate(Metric = "Paid Hours") %>%
       relocate(Metric)
-    
+
     vol_labor_df <- rbind(vol_df_filter, labor_df_filter)
-    
+
     kable(vol_labor_df,
           escape = FALSE,
           align = "c",
@@ -316,7 +321,7 @@ server <- function(input, output) {
                bold = TRUE,
                italic = TRUE) %>%
       collapse_rows(columns = 1, valign = "top")
-    
+
   }
   
 }
