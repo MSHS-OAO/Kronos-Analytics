@@ -91,7 +91,7 @@ saveRDS(census_summary,
                       "HSPI-PM/Operations Analytics and Optimization/Projects/",
                       "System Operations/Kronos Analytics/Data/Epic Clarity Census/",
                       "EpicClarityCensusPull_",
-                      format(unique(census_summary$REFRESH_TIME), "%Y-%m-%d %H%M"),
+                      format(max(unique(census_summary$REFRESH_TIME)), "%Y-%m-%d %H%M"),
                       ".RDS"))
 
 get_values <- function(x, table_name){
