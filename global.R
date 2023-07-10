@@ -129,18 +129,6 @@ labor_df <- labor_df %>%
   mutate(Date = Date + (max(date_choices$DATE) - max(.$Date)),
          Site = "MOUNT SINAI QUEENS")
 
-# labor_summary <- labor_df %>%
-#   group_by(Site, Department, Date, Time, PAYCODE_CATEGORY) %>%
-#   summarize(TotalHours = sum(Hours, na.rm = TRUE)) %>%
-#   pivot_wider(names_from = PAYCODE_CATEGORY,
-#               values_from = TotalHours) %>%
-#   adorn_totals(where = "col", name = "TOTAL") %>%
-#   pivot_longer(cols = !c(Site, Department, Date, Time),
-#                names_to = "Paycode_Category",
-#                values_to = "TotalHours") %>%
-#   mutate(TotalHours = replace_na(TotalHours, 0))
-
-
 # MSHS Colors -----
 
 # Mount Sinai corporate colors

@@ -33,6 +33,12 @@ server <- function(input, output) {
     selected_date <- as.Date(input$hosp_summary_date, format = "%m/%d/%y")
     # selected_date <- default_date
     
+    census_filter <- census_df %>%
+      filter(Site %in% selected_site,
+             Date %in% selected_date) %>%
+      # Time %in% "11PM") %>%
+      select(-Site, -REFRESH_TIME, -NearestHour, -Date, -Time)
+    
     labor_filter <- labor_df %>%
       filter(Site %in% selected_site,
              Date %in% selected_date,
@@ -53,81 +59,83 @@ server <- function(input, output) {
     labor_filter <- left_join(labor_filter, paycode_mappings,
                                by = c("PAYCODE_CATEGORY" = "Paycode"))
     
-    labor_paid_hrs <- labor_filter %>%
-      filter(InclPaidHours) %>%
-      group_by(Department) %>%
-      summarize(TotalPaidHrs = sum(Hours, na.rm = TRUE))
+    if (nrow(census_filter) > 0 & nrow(labor_filter) > 0) {
+      
+      labor_paid_hrs <- labor_filter %>%
+        filter(InclPaidHours) %>%
+        group_by(Department) %>%
+        summarize(TotalPaidHrs = sum(Hours, na.rm = TRUE))
+      
+      labor_worked_hrs <- labor_filter %>%
+        filter(InclWorkedHours) %>%
+        group_by(Department, Description) %>%
+        summarize(TotalWorkedHrs = sum(Hours, na.rm = TRUE)) %>%
+        full_join(labor_template %>%
+                    filter(InclWorkedHours)) %>%
+        select(-InclWorkedHours, -InclNonProdHours) %>%
+        mutate(TotalWorkedHrs = replace_na(TotalWorkedHrs, 0)) %>%
+        pivot_wider(names_from = Description,
+                    values_from = TotalWorkedHrs) %>%
+        adorn_totals(where = "col", name = "WorkedHrsTotal") %>%
+        relocate(WorkedHrsTotal, .after = Department)
+      
+      labor_nonproductive_hrs <- labor_filter %>%
+        filter(InclNonProdHours) %>%
+        group_by(Department, Description) %>%
+        summarize(TotalNonProdHrs = sum(Hours, na.rm = TRUE)) %>%
+        full_join(labor_template %>%
+                    filter(InclNonProdHours)) %>%
+        select(-InclWorkedHours, -InclNonProdHours) %>%
+        mutate(TotalNonProdHrs = replace_na(TotalNonProdHrs, 0)) %>%
+        pivot_wider(names_from = Description,
+                    values_from = TotalNonProdHrs) %>%
+        adorn_totals(where = "col", name = "NonProdHrsTotal") %>%
+        relocate(NonProdHrsTotal, .after = Department)
+      
+      hosp_summary_table <- left_join(census_filter,
+                                      left_join(labor_paid_hrs,
+                                                left_join(labor_worked_hrs,
+                                                          labor_nonproductive_hrs
+                                                )
+                                      )
+      )
+      
+      hosp_summary_table <- hosp_summary_table %>%
+        mutate(TotalPaidFTE = NA,
+               WorkedFTE = NA,
+               WHpU = NA) %>%
+        relocate(TotalPaidFTE, .after = TotalPaidHrs) %>%
+        relocate(c(WorkedFTE, WHpU), .after = WorkedHrsTotal) %>%
+        relocate(NonProdHrsTotal, .after = WHpU)
+      
+      kable(hosp_summary_table,
+            escape = FALSE,
+            align = "c") %>%
+        kable_styling(bootstrap_options = "hover",
+                      position = "center",
+                      font_size = 11,
+                      full_width = FALSE) %>%
+        column_spec(column = c(1, 2, 4, 7, 8, 8 + ncol(labor_worked_hrs) - 2,
+                               ncol(hosp_summary_table)),
+                    border_right = "thin solid lightgray") %>%
+        row_spec(row = 0,
+                 bold = TRUE,
+                 color = "white",
+                 background = MountSinai_colors["dark purple"]) %>%
+        add_header_above(c(" " = 2,
+                           "Paid" = 2,
+                           "Worked Hours" = 3,
+                           "NonProductive Hours" = 1,
+                           "Worked Hours Breakdown" = ncol(labor_worked_hrs) - 2,
+                           "NonProductive Hours Breakdown" = ncol(labor_nonproductive_hrs) - 2),
+                         escape = FALSE)
+    } else {
+        
+      print("No relevant data.")
+      
+      }
     
-    labor_worked_hrs <<- labor_filter %>%
-      filter(InclWorkedHours) %>%
-      group_by(Department, Description) %>%
-      summarize(TotalWorkedHrs = sum(Hours, na.rm = TRUE)) %>%
-      full_join(labor_template %>%
-                  filter(InclWorkedHours)) %>%
-      select(-InclWorkedHours, -InclNonProdHours) %>%
-      mutate(TotalWorkedHrs = replace_na(TotalWorkedHrs, 0)) %>%
-      pivot_wider(names_from = Description,
-                  values_from = TotalWorkedHrs) %>%
-      adorn_totals(where = "col", name = "WorkedHrsTotal") %>%
-      relocate(WorkedHrsTotal, .after = Department)
     
-    labor_nonproductive_hrs <- labor_filter %>%
-      filter(InclNonProdHours) %>%
-      group_by(Department, Description) %>%
-      summarize(TotalNonProdHrs = sum(Hours, na.rm = TRUE)) %>%
-      full_join(labor_template %>%
-                  filter(InclNonProdHours)) %>%
-      select(-InclWorkedHours, -InclNonProdHours) %>%
-      mutate(TotalNonProdHrs = replace_na(TotalNonProdHrs, 0)) %>%
-      pivot_wider(names_from = Description,
-                  values_from = TotalNonProdHrs) %>%
-      adorn_totals(where = "col", name = "NonProdHrsTotal") %>%
-      relocate(NonProdHrsTotal, .after = Department)
-    
-
-    census_filter <- census_df %>%
-      filter(Site %in% selected_site,
-             Date %in% selected_date) %>%
-             # Time %in% "11PM") %>%
-      select(-Site, -REFRESH_TIME, -NearestHour, -Date, -Time)
-    
-    hosp_summary_table <- left_join(census_filter,
-                                    left_join(labor_paid_hrs,
-                                              left_join(labor_worked_hrs,
-                                                        labor_nonproductive_hrs
-                                                        )
-                                              )
-                                    )
-    
-    hosp_summary_table <- hosp_summary_table %>%
-      mutate(TotalPaidFTE = NA,
-             WorkedFTE = NA,
-             WHpU = NA) %>%
-      relocate(TotalPaidFTE, .after = TotalPaidHrs) %>%
-      relocate(c(WorkedFTE, WHpU), .after = WorkedHrsTotal) %>%
-      relocate(NonProdHrsTotal, .after = WHpU)
-
-    kable(hosp_summary_table,
-          escape = FALSE,
-          align = "c") %>%
-      kable_styling(bootstrap_options = "hover",
-                    position = "center",
-                    font_size = 11,
-                    full_width = FALSE) %>%
-      column_spec(column = c(1, 2, 4, 7, 8, 8 + ncol(labor_worked_hrs) - 2,
-                             ncol(hosp_summary_table)),
-                  border_right = "thin solid lightgray") %>%
-      row_spec(row = 0,
-               bold = TRUE,
-               color = "white",
-               background = MountSinai_colors["dark purple"]) %>%
-    add_header_above(c(" " = 2,
-                       "Paid" = 2,
-                       "Worked Hours" = 3,
-                       "NonProductive Hours" = 1,
-                       "Worked Hours Breakdown" = ncol(labor_worked_hrs) - 2,
-                       "NonProductive Hours Breakdown" = ncol(labor_nonproductive_hrs) - 2),
-                     escape = FALSE)
   }
   
   output$unit_retro_radio_button <- renderText("Select Breakdown:")
