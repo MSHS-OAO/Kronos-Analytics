@@ -76,7 +76,9 @@ census_refresh <- tbl(epic_conn,
 
 census_summary <- census_refresh %>%
   distinct() %>%
-  filter(ADMIT_STATUS %in% "Admission") %>%
+  filter(ADMIT_STATUS %in% "Admission" &
+           !is.na(HOSPITAL_AREA) &
+           !is.na(DEPARTMENT)) %>%
   group_by(HOSPITAL_AREA, DEPARTMENT, CURRENT_DATE, CURRENT_TIME) %>%
   summarize(CENSUS = n()) %>%
   ungroup() %>%
