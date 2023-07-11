@@ -154,6 +154,6 @@ print("before conn")
     
 oao_personal_conn <- dbConnect(odbc(),
                                    oao_personal_dsn)
-    
+
 dbExecute(oao_personal_conn,all_data)
 
