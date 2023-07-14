@@ -6,8 +6,8 @@
 # library(readxl)
 # library(writexl)
 # library(ggplot2)
-# library(lubridate)
-# library(dplyr)
+library(lubridate)
+library(dplyr)
 # library(reshape2)
 # library(svDialogs)
 # library(stringr)
@@ -26,10 +26,10 @@
 # library(shiny)
 # library(shinyWidgets)
 # library(shinydashboard)
-# library(odbc)
-# library(dbplyr)
-# library(DBI)
-# library(glue)
+library(odbc)
+library(dbplyr)
+library(DBI)
+library(glue)
 # library(knitr)
 
 # Root path -----------
@@ -61,7 +61,7 @@ root_path <- define_root_path()
 
 print("0")
 epic_dsn <- "Clarity_prod_kate"
-oao_personal_dsn <- "OAO Cloud DB Kate"
+oao_personal_dsn <- "OAO Cloud DB Greg"
 print("1")
 
 epic_conn <- dbConnect(odbc(), epic_dsn)
@@ -95,6 +95,22 @@ saveRDS(census_summary,
                       "EpicClarityCensusPull_",
                       format(max(unique(census_summary$REFRESH_TIME)), "%Y-%m-%d %H%M"),
                       ".RDS"))
+
+print("4")
+
+# get refresh hour to check if it is one of four refresh numbers
+refresh_hour <- as.character(hour(unique(census_summary$REFRESH_TIME)) + 1)
+if (nchar(refresh_hour) == 1) {
+  refresh_hour <- paste0("0", refresh_hour)
+}
+data_refresh <- tbl(oao_personal_conn, "DATA_REFRESH") %>%
+  filter(REFRESH_NUMBER %in% c("1", "2", "3", "4")) %>%
+  collect()
+if (refresh_hour %in% data_refresh$REFRESH_HOUR) {
+  target_update <- "yes"
+} else {
+  target_update <- "no"
+}
 
 get_values <- function(x, table_name){
   
@@ -156,4 +172,45 @@ oao_personal_conn <- dbConnect(odbc(),
                                    oao_personal_dsn)
 
 dbExecute(oao_personal_conn,all_data)
+
+# if this run is a refresh number then we will merge to the target table
+if (target_update == "yes") {
+  # get refresh time of current census summary data
+  refresh_time <- substr(unique(census_summary$REFRESH_TIME), 1, 19)
+  # target update query
+  target_update_query <- glue(
+    "select CT.SITE,
+       CT.DEPARTMENT,
+       CT.REFRESH_TIME,
+       EXTRACT(HOUR from CT.REFRESH_TIME) + 1 as REFRESH_HOUR,
+       DR.REFRESH_NUMBER,
+       TRIM(TO_CHAR(CT.REFRESH_TIME, 'DAY')) as DOW,
+       CT.CENSUS,
+       R.PATIENT_CHARGE,
+       R.PATIENT_RN,
+       R.PATIENT_NA,
+       1 as CHARGE_RN,
+       CEIL((CT.CENSUS - R.PATIENT_CHARGE) / R.PATIENT_RN) as RN,
+       CEIL((CT.CENSUS) / R.PATIENT_NA) as NA,
+       M.MANAGER,
+       M.ASSISTANT_MANAGER,
+       M.SECRETARY,
+       M.ADMINISTRATOR
+  from CENSUS_TEST CT
+  left join DATA_REFRESH DR
+    on EXTRACT(HOUR from CT.REFRESH_TIME) + 1 = DR.REFRESH_HOUR
+  left join RATIOS R
+    on CT.SITE = R.SITE AND
+       CT.DEPARTMENT = R.DEPARTMENT
+  left join MANAGEMENT M
+    on CT.SITE = M.SITE AND
+       CT.DEPARTMENT = M.DEPARTMENT AND
+       TRIM(TO_CHAR(CT.REFRESH_TIME, 'DAY')) = M.DOW
+  where CT.REFRESH_TIME > TIMESTAMP '{refresh_time}' AND
+    DR.REFRESH_NUMBER <> 'NA';"
+  )
+}
+
+test <- dbFetch(dbSendQuery(oao_personal_conn, target_update_query))
+
 
