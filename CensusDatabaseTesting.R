@@ -1,36 +1,5 @@
 # Test connection to Oracle database
 
-# rm(list = ls())
-
-# Load libraries ---------------
-# library(readxl)
-# library(writexl)
-# library(ggplot2)
-# library(lubridate)
-# library(dplyr)
-# library(reshape2)
-# library(svDialogs)
-# library(stringr)
-# library(formattable)
-# library(scales)
-# library(ggpubr)
-# library(reshape2)
-# library(knitr)
-# library(kableExtra)
-# library(rmarkdown)
-# library(zipcodeR)
-# library(tidyr)
-# library(purrr)
-# library(janitor)
-# library(DT)
-# library(shiny)
-# library(shinyWidgets)
-# library(shinydashboard)
-# library(odbc)
-# library(dbplyr)
-# library(DBI)
-# library(glue)
-# library(knitr)
 
 # Root path -----------
 # Determine root path for  shared drive on R Workbench
@@ -59,34 +28,38 @@ define_root_path <- function(){
 
 root_path <- define_root_path()
 
-print("0")
-epic_dsn <- "Clarity_prod_kate"
-oao_personal_dsn <- "OAO Cloud DB Kate"
-print("1")
+print("Start")
 
+# Connect to Clarity table and pull in latest census data
+epic_dsn <- "Clarity_prod_kate"
 epic_conn <- dbConnect(odbc(), epic_dsn)
 
-oao_personal_conn <- dbConnect(odbc(),
-                               oao_personal_dsn)
-print("3")
+print("Connected to Epic Clarity database")
 
+# Pull in data from census table
 census_refresh <- tbl(epic_conn,
-                 in_schema("CRREPORT_REP", "MSHS_CENSUS_TEMP")) %>%
-  collect()
+                      in_schema("CRREPORT_REP", "MSHS_CENSUS_TEMP"))
 
 census_summary <- census_refresh %>%
   distinct() %>%
   filter(ADMIT_STATUS %in% "Admission" &
            !is.na(HOSPITAL_AREA) &
            !is.na(DEPARTMENT)) %>%
-  group_by(HOSPITAL_AREA, DEPARTMENT, CURRENT_DATE, CURRENT_TIME) %>%
+  mutate(MAX_TIME = max(CURRENT_TIME)) %>%
+  group_by(HOSPITAL_AREA, DEPARTMENT, CURRENT_DATE, MAX_TIME) %>%
   summarize(CENSUS = n()) %>%
   ungroup() %>%
-  mutate(REFRESH_TIME = as_datetime(paste0(CURRENT_DATE, " ", CURRENT_TIME),
-         format = "%m/%d/%Y %I:%M %p",
-         tz = "EST")) %>%
   rename(SITE = HOSPITAL_AREA) %>%
-  select(-CURRENT_DATE, -CURRENT_TIME)
+  mutate(REFRESH_TIME = to_timestamp(
+    paste0(CURRENT_DATE, " ", MAX_TIME),
+    'MM/DD/YYYY HH:MI AM')) %>%
+  select(-CURRENT_DATE, -MAX_TIME) %>%
+  arrange(SITE, DEPARTMENT, REFRESH_TIME) %>%
+  collect()
+
+dbDisconnect(epic_conn)
+
+print("Disconnected from Epic Clarity database")
 
 saveRDS(census_summary,
         file = paste0(root_path,
@@ -145,15 +118,24 @@ values <- glue_collapse(inserts,sep = "\n\n")
 all_data <- glue('INSERT ALL
                         {values}
                       SELECT 1 from DUAL;')
-# all_data <- glue('INSERT ALL
-#                  {values};')
+
     
-print("before conn")
-# conn <- dbConnect(drv = odbc::odbc(),  ## Create connection for updating picker choices
-    #                   dsn = dsn)
-    
+print("Before OAO Cloud Database connection")
+
+
+# Connect to OAO Cloud Database personal schema
+oao_personal_dsn <- "OAO Cloud DB Kate"
+oao_personal_conn <- dbConnect(odbc(),
+                               oao_personal_dsn)
+
+print("Connected to OAO Cloud Database personal schema")
+
+
 oao_personal_conn <- dbConnect(odbc(),
                                    oao_personal_dsn)
 
 dbExecute(oao_personal_conn,all_data)
 
+dbDisconnect(oao_personal_conn)
+
+print("Disconnected from OAO Cloud Database")
