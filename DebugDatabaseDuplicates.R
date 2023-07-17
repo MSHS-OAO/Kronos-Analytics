@@ -68,25 +68,35 @@ census_tbl <- tbl(census_conn, "CENSUS_TEST")
 census_df <- census_tbl %>%
   collect()
 
-census_tbl_remove_dupl <- tbl(census_conn, "CENSUS_DUPL_TEST")
-
-census_df_remove_dupl <- census_tbl_remove_dupl %>%
+census_deleted_rows <- tbl(census_conn, "DELETE_DUPL") %>%
   collect()
+
+# census_tbl_remove_dupl <- tbl(census_conn, "CENSUS_DUPL_TEST")
+# 
+# census_df_remove_dupl <- census_tbl_remove_dupl %>%
+#   collect()
 
 dbDisconnect(census_conn)
 
-census_df_2 <- census_df %>%
+census_test_filter <- census_df %>%
   mutate(Concate = paste(SITE, DEPARTMENT, REFRESH_TIME),
          Dupl = duplicated(Concate)) %>%
   filter(!Dupl) %>%
   arrange(SITE, DEPARTMENT, REFRESH_TIME) %>%
-  select(-Concate, -Dupl) %>%
-  relocate(CENSUS, .after = REFRESH_TIME)
+  select(-Concate, -Dupl) #%>%
+  # relocate(CENSUS, .after = REFRESH_TIME)
 
-census_df_dupl_removed <- census_df_remove_dupl %>%
+census_deleted_rows <- census_deleted_rows %>%
   arrange(SITE, DEPARTMENT, REFRESH_TIME)
 
+
+
+# census_df_dupl_removed <- census_df_remove_dupl %>%
+#   arrange(SITE, DEPARTMENT, REFRESH_TIME)
+
 dupl_times <- census_df %>%
+  mutate(Concate = paste(SITE, DEPARTMENT, REFRESH_TIME),
+         Dupl = duplicated(Concate)) %>%
   filter(Dupl) %>%
   select(REFRESH_TIME) %>%
   distinct()
