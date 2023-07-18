@@ -85,57 +85,156 @@ get_values <- function(x, table_name){
 
 processed_input_data <- census_summary
 
-DATA_TYPES <- c(SITE = "Varchar2(50 CHAR)",
-                DEPARTMENT = "Varchar2(50 CHAR)",
-                CENSUS = "Number(38,0)",
-                REFRESH_TIME = "Timestamp")
-    
-TABLE_NAME <- paste0("CENSUS_TEST")
-    
+# DATA_TYPES <- c(SITE = "Varchar2(50 CHAR)",
+#                 DEPARTMENT = "Varchar2(50 CHAR)",
+#                 CENSUS = "Number(38,0)",
+#                 REFRESH_TIME = "Timestamp")
+#     
+# TABLE_NAME <- paste0("CENSUS_TEST")
+#     
+# 
+# processed_input_data <- processed_input_data %>%
+#   mutate(SITE = as.character(SITE),
+#          DEPARTMENT = as.character(DEPARTMENT),
+#          CENSUS = as.integer(CENSUS),
+#          REFRESH_TIME = format(REFRESH_TIME, "%Y-%m-%d %H:%M")
+#          )
+# 
+# # Convert the each record/row of tibble to INTO clause of insert statment
+# inserts <- lapply(
+#   lapply(
+#     lapply(split(processed_input_data , 
+#                  1:nrow(processed_input_data)),
+#                as.list), 
+#         as.character),
+#       FUN = get_values ,TABLE_NAME)
+# 
+# # simple_test <- inserts[[1]]
+#     
+# values <- glue_collapse(inserts,sep = "\n\n")
+# 
+# # Combine into statements from get_values() function and combine with
+# # insert statements
+# all_data <- glue('INSERT ALL
+#                         {values}
+#                       SELECT 1 from DUAL;')
+# 
+#     
+# print("Before OAO Cloud Database connection")
+# 
+# 
+# # Connect to OAO Cloud Database personal schema
+# oao_personal_dsn <- "OAO Cloud DB Kate"
+# oao_personal_conn <- dbConnect(odbc(),
+#                                oao_personal_dsn)
+# 
+# print("Connected to OAO Cloud Database personal schema")
+# 
+# 
+# oao_personal_conn <- dbConnect(odbc(),
+#                                    oao_personal_dsn)
+# 
+# dbExecute(oao_personal_conn,all_data)
+# 
+# dbDisconnect(oao_personal_conn)
+# 
+# print("Disconnected from OAO Cloud Database")
 
-processed_input_data <- processed_input_data %>%
-  mutate(SITE = as.character(SITE),
-         DEPARTMENT = as.character(DEPARTMENT),
-         CENSUS = as.integer(CENSUS),
-         REFRESH_TIME = format(REFRESH_TIME, "%Y-%m-%d %H:%M")
-         )
-
-# Convert the each record/row of tibble to INTO clause of insert statment
-inserts <- lapply(
-  lapply(
-    lapply(split(processed_input_data , 
-                 1:nrow(processed_input_data)),
+write_temp_census_table_to_db_and_merge <- function(processed_input_data,table_name){
+  if(nrow(processed_input_data) == 0) {
+    print("no new data")
+  } else{
+    
+    # Constants
+    DATA_TYPES <- c(SITE = "Varchar2(50 CHAR)",
+                    DEPARTMENT = "Varchar2(50 CHAR)",
+                    CENSUS = "Number(38,0)",
+                    REFRESH_TIME = "Timestamp")
+    
+    TABLE_NAME <- paste0("CENSUS_LAST_REFRESH")
+    
+    
+    # Ensure all the fields are correct data type
+    processed_input_data <- processed_input_data %>%
+      mutate(SITE = as.character(SITE),
+             DEPARTMENT = as.character(DEPARTMENT),
+             CENSUS = as.integer(CENSUS),
+             REFRESH_TIME = format(REFRESH_TIME, "%Y-%m-%d %H:%M")
+      )
+    
+    # Convert the each record/row of tibble to INTO clause of insert statment
+    inserts <- lapply(
+      lapply(
+        lapply(split(processed_input_data , 
+                     1:nrow(processed_input_data)),
                as.list), 
         as.character),
       FUN = get_values ,TABLE_NAME)
-
-# simple_test <- inserts[[1]]
     
-values <- glue_collapse(inserts,sep = "\n\n")
-
-# Combine into statements from get_values() function and combine with
-# insert statements
-all_data <- glue('INSERT ALL
+    values <- glue_collapse(inserts,sep = "\n\n")
+    
+    # Combine into statements from get_values() function and combine with
+    # insert statements
+    all_data <- glue('INSERT ALL
                         {values}
                       SELECT 1 from DUAL;')
-
     
-print("Before OAO Cloud Database connection")
-
-
-# Connect to OAO Cloud Database personal schema
-oao_personal_dsn <- "OAO Cloud DB Kate"
-oao_personal_conn <- dbConnect(odbc(),
-                               oao_personal_dsn)
-
-print("Connected to OAO Cloud Database personal schema")
-
-
-oao_personal_conn <- dbConnect(odbc(),
+    # glue() query to merge data from temporary table to summary_repo table
+    query = glue('MERGE INTO CENSUS_TEST CT
+                    USING "{TABLE_NAME}" SOURCE_TABLE
+                    ON (  CT."SITE" = SOURCE_TABLE."SITE" AND
+                          CT."DEPARTMENT" = SOURCE_TABLE."DEPARTMENT" AND
+                          CT."REFRESH_TIME" = SOURCE_TABLE."REFRESH_TIME")
+                    WHEN MATCHED THEN 
+                    UPDATE  SET CT."CENSUS" = SOURCE_TABLE."CENSUS"
+                    WHEN NOT MATCHED THEN
+                    INSERT( CT."SITE",
+                            CT."DEPARTMENT",
+                            CT."CENSUS",
+                            CT."REFRESH_TIME"
+                            )  
+                    VALUES( SOURCE_TABLE."SITE",
+                            SOURCE_TABLE."DEPARTMENT",
+                            SOURCE_TABLE."CENSUS",
+                            SOURCE_TABLE."REFRESH_TIME");')
+    
+    # glue query for dropping the table
+    truncate_query <- glue('TRUNCATE TABLE "{TABLE_NAME}";')
+    
+    print("Before OAO Cloud DB Connection")
+    # conn <- dbConnect(drv = odbc::odbc(),  ## Create connection for updating picker choices
+    #                   dsn = dsn)
+    
+    oao_personal_dsn <- "OAO Cloud DB Kate"
+    
+    oao_personal_conn <- dbConnect(odbc(),
                                    oao_personal_dsn)
+    
+    dbBegin(oao_personal_conn)
+    # ## Execute staments and if there is an error  with one of them rollback changes
+    tryCatch({
+      print("Before first truncate")
+      dbExecute(oao_personal_conn, truncate_query)
+      print("After first truncate")
+      dbExecute(oao_personal_conn, all_data)
+      print("After all data glue statement")
+      dbExecute(oao_personal_conn, query)
+      print("After merge")
+      dbExecute(oao_personal_conn, truncate_query)
+      print("After second truncate")
+      dbCommit(oao_personal_conn)
+      dbDisconnect(oao_personal_conn)
+      print("Success!")
+    },
+    error = function(err){
+      #print(err)
+      dbRollback(oao_personal_conn)
+      dbDisconnect(oao_personal_conn)
+      dbExecute(oao_personal_conn, truncate_query)
+      print("Error")
+    })
+  }
+}
 
-dbExecute(oao_personal_conn,all_data)
-
-dbDisconnect(oao_personal_conn)
-
-print("Disconnected from OAO Cloud Database")
+write_temp_census_table_to_db_and_merge(processed_input_data = census_summary,
+                                        table_name = "CENSUS_LAST_REFRESH")

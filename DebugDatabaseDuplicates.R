@@ -68,8 +68,8 @@ census_tbl <- tbl(census_conn, "CENSUS_TEST")
 census_df <- census_tbl %>%
   collect()
 
-census_deleted_rows <- tbl(census_conn, "DELETE_DUPL") %>%
-  collect()
+# census_deleted_rows <- tbl(census_conn, "DELETE_DUPL") %>%
+#   collect()
 
 # census_tbl_remove_dupl <- tbl(census_conn, "CENSUS_DUPL_TEST")
 # 
