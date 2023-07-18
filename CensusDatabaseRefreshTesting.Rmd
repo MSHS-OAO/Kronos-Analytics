@@ -41,7 +41,7 @@ library(knitr)
 
 ## Source test script
 
-```{r Source script for pulling census data and sending summary to OAO Cloud DB, echo = FALSE, include = FALSE}
+```{r Source script for pulling census data and sending summary to OAO Cloud DB, echo = FALSE}
 source("CensusDatabaseTesting.R")
 
 # print(paste0("Code run at ", Sys.time()))
