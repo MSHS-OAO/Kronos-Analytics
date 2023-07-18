@@ -82,64 +82,6 @@ get_values <- function(x, table_name){
   return(values)
 }
 
-
-# processed_input_data <- census_summary
-
-# DATA_TYPES <- c(SITE = "Varchar2(50 CHAR)",
-#                 DEPARTMENT = "Varchar2(50 CHAR)",
-#                 CENSUS = "Number(38,0)",
-#                 REFRESH_TIME = "Timestamp")
-#     
-# TABLE_NAME <- paste0("CENSUS_TEST")
-#     
-# 
-# processed_input_data <- processed_input_data %>%
-#   mutate(SITE = as.character(SITE),
-#          DEPARTMENT = as.character(DEPARTMENT),
-#          CENSUS = as.integer(CENSUS),
-#          REFRESH_TIME = format(REFRESH_TIME, "%Y-%m-%d %H:%M")
-#          )
-# 
-# # Convert the each record/row of tibble to INTO clause of insert statment
-# inserts <- lapply(
-#   lapply(
-#     lapply(split(processed_input_data , 
-#                  1:nrow(processed_input_data)),
-#                as.list), 
-#         as.character),
-#       FUN = get_values ,TABLE_NAME)
-# 
-# # simple_test <- inserts[[1]]
-#     
-# values <- glue_collapse(inserts,sep = "\n\n")
-# 
-# # Combine into statements from get_values() function and combine with
-# # insert statements
-# all_data <- glue('INSERT ALL
-#                         {values}
-#                       SELECT 1 from DUAL;')
-# 
-#     
-# print("Before OAO Cloud Database connection")
-# 
-# 
-# # Connect to OAO Cloud Database personal schema
-# oao_personal_dsn <- "OAO Cloud DB Kate"
-# oao_personal_conn <- dbConnect(odbc(),
-#                                oao_personal_dsn)
-# 
-# print("Connected to OAO Cloud Database personal schema")
-# 
-# 
-# oao_personal_conn <- dbConnect(odbc(),
-#                                    oao_personal_dsn)
-# 
-# dbExecute(oao_personal_conn,all_data)
-# 
-# dbDisconnect(oao_personal_conn)
-# 
-# print("Disconnected from OAO Cloud Database")
-
 write_temp_census_table_to_db_and_merge <- function(processed_input_data,table_name){
   if(nrow(processed_input_data) == 0) {
     print("no new data")
@@ -180,18 +122,18 @@ write_temp_census_table_to_db_and_merge <- function(processed_input_data,table_n
                       SELECT 1 from DUAL;')
     
     # glue() query to merge data from temporary table to summary_repo table
-    query = glue('MERGE INTO CENSUS_TEST CT
+    query = glue('MERGE INTO MSHS_CENSUS_REPO CR
                     USING "{TABLE_NAME}" SOURCE_TABLE
-                    ON (  CT."SITE" = SOURCE_TABLE."SITE" AND
-                          CT."DEPARTMENT" = SOURCE_TABLE."DEPARTMENT" AND
-                          CT."REFRESH_TIME" = SOURCE_TABLE."REFRESH_TIME")
+                    ON (  CR."SITE" = SOURCE_TABLE."SITE" AND
+                          CR."DEPARTMENT" = SOURCE_TABLE."DEPARTMENT" AND
+                          CR."REFRESH_TIME" = SOURCE_TABLE."REFRESH_TIME")
                     WHEN MATCHED THEN 
-                    UPDATE  SET CT."CENSUS" = SOURCE_TABLE."CENSUS"
+                    UPDATE  SET CR."CENSUS" = SOURCE_TABLE."CENSUS"
                     WHEN NOT MATCHED THEN
-                    INSERT( CT."SITE",
-                            CT."DEPARTMENT",
-                            CT."CENSUS",
-                            CT."REFRESH_TIME"
+                    INSERT( CR."SITE",
+                            CR."DEPARTMENT",
+                            CR."CENSUS",
+                            CR."REFRESH_TIME"
                             )  
                     VALUES( SOURCE_TABLE."SITE",
                             SOURCE_TABLE."DEPARTMENT",
