@@ -83,7 +83,7 @@ get_values <- function(x, table_name){
 }
 
 
-processed_input_data <- census_summary
+# processed_input_data <- census_summary
 
 # DATA_TYPES <- c(SITE = "Varchar2(50 CHAR)",
 #                 DEPARTMENT = "Varchar2(50 CHAR)",
