@@ -12,11 +12,7 @@
   "packages": {
     "BH": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "BH",
         "Type": "Package",
@@ -38,11 +34,7 @@
     },
     "DBI": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "DBI",
         "Title": "R Database Interface",
@@ -74,11 +66,7 @@
     },
     "DT": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "DT",
         "Type": "Package",
@@ -105,11 +93,7 @@
     },
     "KernSmooth": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "KernSmooth",
         "Priority": "recommended",
@@ -134,11 +118,7 @@
     },
     "MASS": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "MASS",
         "Priority": "recommended",
@@ -167,11 +147,7 @@
     },
     "Matrix": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "Matrix",
         "Version": "1.5-3",
@@ -204,11 +180,7 @@
     },
     "MatrixModels": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "MatrixModels",
         "Version": "0.5-1",
@@ -234,11 +206,7 @@
     },
     "R6": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "R6",
         "Title": "Encapsulated Classes with Reference Semantics",
@@ -262,11 +230,7 @@
     },
     "RColorBrewer": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "RColorBrewer",
         "Version": "1.1-3",
@@ -287,11 +251,7 @@
     },
     "RSQLite": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "RSQLite",
         "Title": "SQLite Interface for R",
@@ -324,11 +284,7 @@
     },
     "Rcpp": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "Rcpp",
         "Title": "Seamless R and C++ Integration",
@@ -353,11 +309,7 @@
     },
     "RcppEigen": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "RcppEigen",
         "Type": "Package",
@@ -385,11 +337,7 @@
     },
     "SparseM": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "SparseM",
         "Version": "1.81",
@@ -411,11 +359,7 @@
     },
     "abind": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "abind",
         "Version": "1.4-5",
@@ -436,11 +380,7 @@
     },
     "anytime": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "anytime",
         "Type": "Package",
@@ -468,11 +408,7 @@
     },
     "askpass": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "askpass",
         "Type": "Package",
@@ -500,11 +436,7 @@
     },
     "backports": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "backports",
         "Type": "Package",
@@ -530,11 +462,7 @@
     },
     "base64enc": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "base64enc",
         "Version": "0.1-3",
@@ -555,11 +483,7 @@
     },
     "bit": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "bit",
         "Type": "Package",
@@ -587,11 +511,7 @@
     },
     "bit64": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "bit64",
         "Type": "Package",
@@ -619,11 +539,7 @@
     },
     "blob": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "blob",
         "Title": "A Simple S3 Class for Representing Vectors of Binary Data\n('BLOBS')",
@@ -651,11 +567,7 @@
     },
     "boot": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "boot",
         "Priority": "recommended",
@@ -681,11 +593,7 @@
     },
     "brio": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "brio",
         "Title": "Basic R Input Output",
@@ -709,11 +617,7 @@
     },
     "broom": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Type": "Package",
         "Package": "broom",
@@ -744,11 +648,7 @@
     },
     "bslib": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "bslib",
         "Title": "Custom 'Bootstrap' 'Sass' Themes for 'shiny' and 'rmarkdown'",
@@ -779,11 +679,7 @@
     },
     "cachem": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "cachem",
         "Version": "1.0.7",
@@ -810,11 +706,7 @@
     },
     "callr": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "callr",
         "Title": "Call R from R",
@@ -843,11 +735,7 @@
     },
     "car": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "car",
         "Version": "3.1-2",
@@ -878,11 +766,7 @@
     },
     "carData": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "carData",
         "Version": "3.0-5",
@@ -910,11 +794,7 @@
     },
     "cellranger": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "cellranger",
         "Title": "Translate Spreadsheet Cell Ranges to Rows and Columns",
@@ -941,11 +821,7 @@
     },
     "class": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "class",
         "Priority": "recommended",
@@ -970,11 +846,7 @@
     },
     "classInt": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "classInt",
         "Version": "0.4-9",
@@ -1002,11 +874,7 @@
     },
     "cli": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "cli",
         "Title": "Helpers for Developing Command Line Interfaces",
@@ -1034,11 +902,7 @@
     },
     "clipr": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Type": "Package",
         "Package": "clipr",
@@ -1067,11 +931,7 @@
     },
     "colorspace": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "colorspace",
         "Version": "2.1-0",
@@ -1100,11 +960,7 @@
     },
     "commonmark": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "commonmark",
         "Type": "Package",
@@ -1130,11 +986,7 @@
     },
     "corrplot": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "corrplot",
         "Type": "Package",
@@ -1160,11 +1012,7 @@
     },
     "cowplot": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "cowplot",
         "Title": "Streamlined Plot Theme and Plot Annotations for 'ggplot2'",
@@ -1193,11 +1041,7 @@
     },
     "cpp11": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "cpp11",
         "Title": "A C++11 Interface for R's C Interface",
@@ -1226,11 +1070,7 @@
     },
     "crayon": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "crayon",
         "Title": "Colored Terminal Output",
@@ -1256,11 +1096,7 @@
     },
     "crosstalk": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "crosstalk",
         "Type": "Package",
@@ -1286,11 +1122,7 @@
     },
     "curl": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "curl",
         "Type": "Package",
@@ -1319,11 +1151,7 @@
     },
     "dbplyr": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Type": "Package",
         "Package": "dbplyr",
@@ -1355,11 +1183,7 @@
     },
     "desc": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "desc",
         "Title": "Manipulate DESCRIPTION Files",
@@ -1389,11 +1213,7 @@
     },
     "diffobj": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "diffobj",
         "Type": "Package",
@@ -1422,11 +1242,7 @@
     },
     "digest": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "digest",
         "Author": "Dirk Eddelbuettel <edd@debian.org> with contributions\n by Antoine Lucas, Jarek Tuszynski, Henrik Bengtsson, Simon Urbanek,\n Mario Frasca, Bryan Lewis, Murray Stokely, Hannes Muehleisen,\n Duncan Murdoch, Jim Hester, Wush Wu, Qiang Kou, Thierry Onkelinx,\n Michel Lang, Viliam Simko, Kurt Hornik, Radford Neal, Kendon Bell,\n Matthew de Queljoe, Ion Suruceanu, Bill Denney, Dirk Schumacher,\n and Winston Chang.",
@@ -1451,11 +1267,7 @@
     },
     "dplyr": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Type": "Package",
         "Package": "dplyr",
@@ -1486,11 +1298,7 @@
     },
     "e1071": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "e1071",
         "Version": "1.7-13",
@@ -1512,11 +1320,7 @@
     },
     "ellipsis": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "ellipsis",
         "Version": "0.3.2",
@@ -1542,11 +1346,7 @@
     },
     "evaluate": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "evaluate",
         "Type": "Package",
@@ -1573,11 +1373,7 @@
     },
     "fansi": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "fansi",
         "Title": "ANSI Control Sequence Aware String Functions",
@@ -1605,11 +1401,7 @@
     },
     "farver": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Type": "Package",
         "Package": "farver",
@@ -1636,11 +1428,7 @@
     },
     "fastmap": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "fastmap",
         "Title": "Fast Data Structures",
@@ -1664,11 +1452,7 @@
     },
     "fontawesome": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Type": "Package",
         "Package": "fontawesome",
@@ -1697,11 +1481,7 @@
     },
     "formattable": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "formattable",
         "Title": "Create 'Formattable' Data Structures",
@@ -1731,11 +1511,7 @@
     },
     "fs": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "fs",
         "Title": "Cross-Platform File System Operations Based on 'libuv'",
@@ -1768,11 +1544,7 @@
     },
     "generics": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "generics",
         "Title": "Common S3 Generics not Provided by Base R Methods Related to\nModel Fitting",
@@ -1800,11 +1572,7 @@
     },
     "ggplot2": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "ggplot2",
         "Version": "3.4.2",
@@ -1836,11 +1604,7 @@
     },
     "ggpubr": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "ggpubr",
         "Type": "Package",
@@ -1870,11 +1634,7 @@
     },
     "ggrepel": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "ggrepel",
         "Version": "0.9.3",
@@ -1902,11 +1662,7 @@
     },
     "ggsci": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "ggsci",
         "Type": "Package",
@@ -1934,11 +1690,7 @@
     },
     "ggsignif": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Type": "Package",
         "Package": "ggsignif",
@@ -1967,11 +1719,7 @@
     },
     "glue": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "glue",
         "Title": "Interpreted String Literals",
@@ -2001,11 +1749,7 @@
     },
     "gridExtra": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "gridExtra",
         "Authors@R": "c(person(\"Baptiste\", \"Auguie\",\n    email = \"baptiste.auguie@gmail.com\",\n    role = c(\"aut\", \"cre\")), person(\"Anton\", \"Antonov\",\n    email = \"tonytonov@gmail.com\",\n    role = c(\"ctb\")))",
@@ -2029,11 +1773,7 @@
     },
     "gtable": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "gtable",
         "Title": "Arrange 'Grobs' in Tables",
@@ -2062,11 +1802,7 @@
     },
     "highr": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "highr",
         "Type": "Package",
@@ -2094,11 +1830,7 @@
     },
     "hms": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "hms",
         "Title": "Pretty Time of Day",
@@ -2128,11 +1860,7 @@
     },
     "htmltools": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "htmltools",
         "Type": "Package",
@@ -2162,11 +1890,7 @@
     },
     "htmlwidgets": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "htmlwidgets",
         "Type": "Package",
@@ -2194,11 +1918,7 @@
     },
     "httpuv": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "httpuv",
         "Type": "Package",
@@ -2228,11 +1948,7 @@
     },
     "httr": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "httr",
         "Title": "Tools for Working with URLs and HTTP",
@@ -2260,11 +1976,7 @@
     },
     "isoband": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "isoband",
         "Title": "Generate Isolines and Isobands from Regularly Spaced Elevation\nGrids",
@@ -2293,11 +2005,7 @@
     },
     "janitor": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "janitor",
         "Title": "Simple Tools for Examining and Cleaning Dirty Data",
@@ -2325,11 +2033,7 @@
     },
     "jquerylib": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "jquerylib",
         "Title": "Obtain 'jQuery' as an HTML Dependency Object",
@@ -2353,11 +2057,7 @@
     },
     "jsonlite": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "jsonlite",
         "Version": "1.8.4",
@@ -2382,20 +2082,17 @@
       }
     },
     "kableExtra": {
-      "Source": "github",
-      "Repository": null,
-      "GithubRepo": "kableExtra",
-      "GithubUsername": "haozhu233",
-      "GithubRef": "a6af5c0",
-      "GithubSha1": "a6af5c067c2b4ca8317736f4a3e6c0f7db508fef",
+      "Source": "CRAN",
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "kableExtra",
         "Type": "Package",
         "Title": "Construct Complex Table with 'kable' and Pipe Syntax",
-        "Version": "1.3.4.9000",
+        "Version": "1.3.4",
         "Authors@R": "c(\n    person('Hao', 'Zhu', email = 'haozhu233@gmail.com', role = c('aut', 'cre'),\n    comment = c(ORCID = '0000-0002-3386-6076')),\n    person('Thomas', 'Travison', role = 'ctb'),\n    person('Timothy', 'Tsai', role = 'ctb'),\n    person('Will', 'Beasley', email = 'wibeasley@hotmail.com', role = 'ctb'),\n    person('Yihui', 'Xie', email = 'xie@yihui.name', role = 'ctb'),\n    person('GuangChuang', 'Yu', email = 'guangchuangyu@gmail.com', role = 'ctb'),\n    person('Stéphane', 'Laurent', role = 'ctb'),\n    person('Rob', 'Shepherd', role = 'ctb'),\n    person('Yoni', 'Sidi', role = 'ctb'), \n    person('Brian', 'Salzer', role = 'ctb'),\n    person('George', 'Gui', role = 'ctb'),\n    person('Yeliang', 'Fan', role = 'ctb'),\n    person('Duncan', 'Murdoch', role = 'ctb'),\n    person('Bill', 'Evans',  role = 'ctb')\n    )",
         "Description": "Build complex HTML or 'LaTeX' tables using 'kable()' from 'knitr' \n    and the piping syntax from 'magrittr'. Function 'kable()' is a light weight \n    table generator coming from 'knitr'. This package simplifies the way to \n    manipulate the HTML or 'LaTeX' codes generated by 'kable()' and allows \n    users to construct complex tables and customize styles using a readable \n    syntax. ",
         "License": "MIT + file LICENSE",
+        "LazyData": "TRUE",
         "URL": "http://haozhu233.github.io/kableExtra/,\nhttps://github.com/haozhu233/kableExtra",
         "BugReports": "https://github.com/haozhu233/kableExtra/issues",
         "Depends": "R (>= 3.1.0)",
@@ -2404,31 +2101,18 @@
         "VignetteBuilder": "knitr",
         "Encoding": "UTF-8",
         "RoxygenNote": "7.1.1",
-        "Roxygen": "list(markdown = TRUE)",
-        "RemoteType": "github",
-        "RemoteHost": "api.github.com",
-        "RemoteRepo": "kableExtra",
-        "RemoteUsername": "haozhu233",
-        "RemoteRef": "a6af5c0",
-        "RemoteSha": "a6af5c067c2b4ca8317736f4a3e6c0f7db508fef",
-        "GithubRepo": "kableExtra",
-        "GithubUsername": "haozhu233",
-        "GithubRef": "a6af5c0",
-        "GithubSHA1": "a6af5c067c2b4ca8317736f4a3e6c0f7db508fef",
         "NeedsCompilation": "no",
-        "Packaged": "2023-05-15 18:11:49 UTC; nevink01",
+        "Packaged": "2021-02-19 18:56:12 UTC; haozhu",
         "Author": "Hao Zhu [aut, cre] (<https://orcid.org/0000-0002-3386-6076>),\n  Thomas Travison [ctb],\n  Timothy Tsai [ctb],\n  Will Beasley [ctb],\n  Yihui Xie [ctb],\n  GuangChuang Yu [ctb],\n  Stéphane Laurent [ctb],\n  Rob Shepherd [ctb],\n  Yoni Sidi [ctb],\n  Brian Salzer [ctb],\n  George Gui [ctb],\n  Yeliang Fan [ctb],\n  Duncan Murdoch [ctb],\n  Bill Evans [ctb]",
         "Maintainer": "Hao Zhu <haozhu233@gmail.com>",
-        "Built": "R 4.2.1; ; 2023-05-15 18:11:49 UTC; unix"
+        "Repository": "CRAN",
+        "Date/Publication": "2021-02-20 05:50:07 UTC",
+        "Built": "R 4.2.3; ; 2023-04-26 16:13:37 UTC; unix"
       }
     },
     "knitr": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "knitr",
         "Type": "Package",
@@ -2458,11 +2142,7 @@
     },
     "labeling": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "labeling",
         "Type": "Package",
@@ -2484,11 +2164,7 @@
     },
     "later": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "later",
         "Type": "Package",
@@ -2517,11 +2193,7 @@
     },
     "lattice": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "lattice",
         "Version": "0.20-45",
@@ -2550,11 +2222,7 @@
     },
     "lazyeval": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "lazyeval",
         "Version": "0.2.2",
@@ -2578,11 +2246,7 @@
     },
     "lifecycle": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "lifecycle",
         "Title": "Manage the Life Cycle of your Package Functions",
@@ -2611,11 +2275,7 @@
     },
     "lme4": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "lme4",
         "Version": "1.1-32",
@@ -2643,11 +2303,7 @@
     },
     "lubridate": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Type": "Package",
         "Package": "lubridate",
@@ -2681,11 +2337,7 @@
     },
     "magrittr": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Type": "Package",
         "Package": "magrittr",
@@ -2714,11 +2366,7 @@
     },
     "memoise": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "memoise",
         "Title": "'Memoisation' of Functions",
@@ -2743,11 +2391,7 @@
     },
     "mgcv": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "mgcv",
         "Version": "1.8-42",
@@ -2771,11 +2415,7 @@
     },
     "mime": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "mime",
         "Type": "Package",
@@ -2800,11 +2440,7 @@
     },
     "minqa": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "minqa",
         "Type": "Package",
@@ -2827,11 +2463,7 @@
     },
     "munsell": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "munsell",
         "Type": "Package",
@@ -2854,11 +2486,7 @@
     },
     "nlme": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "nlme",
         "Version": "3.1-162",
@@ -2888,11 +2516,7 @@
     },
     "nloptr": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "nloptr",
         "Type": "Package",
@@ -2922,11 +2546,7 @@
     },
     "nnet": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "nnet",
         "Priority": "recommended",
@@ -2951,11 +2571,7 @@
     },
     "numDeriv": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "numDeriv",
         "Version": "2016.8-1.1",
@@ -2978,11 +2594,7 @@
     },
     "odbc": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "odbc",
         "Title": "Connect to ODBC Compatible Databases (using the DBI Interface)",
@@ -3009,16 +2621,12 @@
         "Maintainer": "Hadley Wickham <hadley@rstudio.com>",
         "Repository": "CRAN",
         "Date/Publication": "2023-01-17 10:50:02 UTC",
-        "Built": "R 4.2.1; x86_64-pc-linux-gnu; 2023-04-20 19:11:07 UTC; unix"
+        "Built": "R 4.2.1; x86_64-pc-linux-gnu; 2023-05-10 14:07:34 UTC; unix"
       }
     },
     "openssl": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "openssl",
         "Type": "Package",
@@ -3046,14 +2654,10 @@
     },
     "pbkrtest": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "pbkrtest",
-        "Version": "0.5.1",
+        "Version": "0.5.2",
         "Title": "Parametric Bootstrap, Kenward-Roger and Satterthwaite Based\nMethods for Test in Mixed Models",
         "Authors@R": "c(\n    person(given = \"Ulrich\", family = \"Halekoh\",\n        email = \"uhalekoh@health.sdu.dk\", role = c(\"aut\", \"cph\")),\n    person(given = \"Søren\", family = \"Højsgaard\",\n        email = \"sorenh@math.aau.dk\", role = c(\"aut\", \"cre\", \"cph\"))\n  )",
         "Maintainer": "Søren Højsgaard <sorenh@math.aau.dk>",
@@ -3078,11 +2682,7 @@
     },
     "pillar": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "pillar",
         "Title": "Coloured Formatting for Columns",
@@ -3115,11 +2715,7 @@
     },
     "pkgconfig": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "pkgconfig",
         "Title": "Private Configuration for 'R' Packages",
@@ -3143,11 +2739,7 @@
     },
     "pkgload": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "pkgload",
         "Title": "Simulate Package Installation and Attach",
@@ -3175,11 +2767,7 @@
     },
     "plogr": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "plogr",
         "Title": "The 'plog' C++ Logging Library",
@@ -3205,11 +2793,7 @@
     },
     "plyr": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "plyr",
         "Title": "Tools for Splitting, Applying and Combining Data",
@@ -3230,18 +2814,14 @@
         "Packaged": "2022-11-11 16:45:00 UTC; hadleywickham",
         "Author": "Hadley Wickham [aut, cre]",
         "Maintainer": "Hadley Wickham <hadley@rstudio.com>",
-        "Repository": "CRAN",
+        "Repository": "RSPM",
         "Date/Publication": "2022-11-11 20:50:02 UTC",
-        "Built": "R 4.2.1; x86_64-pc-linux-gnu; 2023-04-20 20:02:08 UTC; unix"
+        "Built": "R 4.2.0; x86_64-pc-linux-gnu; 2023-01-23 14:16:44 UTC; unix"
       }
     },
     "polynom": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "polynom",
         "Version": "1.4-1",
@@ -3263,11 +2843,7 @@
     },
     "praise": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "praise",
         "Title": "Praise Users",
@@ -3290,11 +2866,7 @@
     },
     "prettyunits": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "prettyunits",
         "Title": "Pretty, Human Readable Formatting of Quantities",
@@ -3318,11 +2890,7 @@
     },
     "processx": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "processx",
         "Title": "Execute and Control System Processes",
@@ -3350,11 +2918,7 @@
     },
     "progress": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "progress",
         "Title": "Terminal Progress Bars",
@@ -3379,11 +2943,7 @@
     },
     "promises": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "promises",
         "Type": "Package",
@@ -3413,11 +2973,7 @@
     },
     "proxy": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "proxy",
         "Type": "Package",
@@ -3441,11 +2997,7 @@
     },
     "ps": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "ps",
         "Title": "List, Query, Manipulate System Processes",
@@ -3474,11 +3026,7 @@
     },
     "purrr": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "purrr",
         "Title": "Functional Programming Tools",
@@ -3509,11 +3057,7 @@
     },
     "quantreg": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "quantreg",
         "Title": "Quantile Regression",
@@ -3537,11 +3081,7 @@
     },
     "rappdirs": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Type": "Package",
         "Package": "rappdirs",
@@ -3569,11 +3109,7 @@
     },
     "raster": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "raster",
         "Type": "Package",
@@ -3600,11 +3136,7 @@
     },
     "readr": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "readr",
         "Title": "Read Rectangular Text Data",
@@ -3636,11 +3168,7 @@
     },
     "readxl": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "readxl",
         "Title": "Read Excel Files",
@@ -3671,11 +3199,7 @@
     },
     "rematch": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "rematch",
         "Title": "Match Regular Expressions with a Nicer 'API'",
@@ -3699,11 +3223,7 @@
     },
     "rematch2": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "rematch2",
         "Title": "Tidy Output from Regular Expression Matching",
@@ -3729,11 +3249,7 @@
     },
     "reshape2": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "reshape2",
         "Title": "Flexibly Reshape Data: A Reboot of the Reshape Package",
@@ -3755,16 +3271,12 @@
         "Packaged": "2020-04-09 12:27:19 UTC; hadley",
         "Repository": "RSPM",
         "Date/Publication": "2020-04-09 13:50:02 UTC",
-        "Built": "R 4.2.0; x86_64-pc-linux-gnu; 2022-07-12 12:12:06 UTC; unix"
+        "Built": "R 4.2.0; x86_64-pc-linux-gnu; 2023-01-23 14:33:40 UTC; unix"
       }
     },
     "rlang": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "rlang",
         "Version": "1.1.0",
@@ -3795,11 +3307,7 @@
     },
     "rmarkdown": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Type": "Package",
         "Package": "rmarkdown",
@@ -3829,11 +3337,7 @@
     },
     "rprojroot": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "rprojroot",
         "Title": "Finding Files in Project Subdirectories",
@@ -3860,11 +3364,7 @@
     },
     "rstatix": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "rstatix",
         "Type": "Package",
@@ -3893,11 +3393,7 @@
     },
     "rstudioapi": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "rstudioapi",
         "Title": "Safely Access the RStudio API",
@@ -3922,11 +3418,7 @@
     },
     "rvest": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "rvest",
         "Title": "Easily Harvest (Scrape) Web Pages",
@@ -3956,11 +3448,7 @@
     },
     "s2": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "s2",
         "Title": "Spherical Geometry Operators Using the S2 Geometry Library",
@@ -3990,11 +3478,7 @@
     },
     "sass": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Type": "Package",
         "Package": "sass",
@@ -4023,11 +3507,7 @@
     },
     "scales": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "scales",
         "Title": "Scale Functions for Visualization",
@@ -4056,11 +3536,7 @@
     },
     "selectr": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "selectr",
         "Type": "Package",
@@ -4086,11 +3562,7 @@
     },
     "sf": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "sf",
         "Version": "1.0-12",
@@ -4121,11 +3593,7 @@
     },
     "shiny": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "shiny",
         "Type": "Package",
@@ -4156,11 +3624,7 @@
     },
     "shinyWidgets": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "shinyWidgets",
         "Title": "Custom Inputs Widgets for Shiny",
@@ -4187,11 +3651,7 @@
     },
     "shinydashboard": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "shinydashboard",
         "Title": "Create Dashboards with 'Shiny'",
@@ -4215,11 +3675,7 @@
     },
     "snakecase": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "snakecase",
         "Version": "0.11.0",
@@ -4247,11 +3703,7 @@
     },
     "sourcetools": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "sourcetools",
         "Type": "Package",
@@ -4275,11 +3727,7 @@
     },
     "sp": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "sp",
         "Version": "1.6-0",
@@ -4305,11 +3753,7 @@
     },
     "stringi": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "stringi",
         "Version": "1.7.12",
@@ -4338,11 +3782,7 @@
     },
     "stringr": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "stringr",
         "Title": "Simple, Consistent Wrappers for Common String Operations",
@@ -4372,11 +3812,7 @@
     },
     "survival": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Title": "Survival Analysis",
         "Priority": "recommended",
@@ -4403,11 +3839,7 @@
     },
     "svDialogs": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "svDialogs",
         "Type": "Package",
@@ -4438,11 +3870,7 @@
     },
     "svGUI": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "svGUI",
         "Type": "Package",
@@ -4471,11 +3899,7 @@
     },
     "svglite": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "svglite",
         "Title": "An 'SVG' Graphics Device",
@@ -4505,11 +3929,7 @@
     },
     "sys": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "sys",
         "Type": "Package",
@@ -4535,11 +3955,7 @@
     },
     "systemfonts": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "systemfonts",
         "Type": "Package",
@@ -4568,11 +3984,7 @@
     },
     "terra": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "terra",
         "Type": "Package",
@@ -4603,11 +4015,7 @@
     },
     "testthat": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "testthat",
         "Title": "Unit Testing for R",
@@ -4637,11 +4045,7 @@
     },
     "tibble": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "tibble",
         "Title": "Simple Data Frames",
@@ -4675,11 +4079,7 @@
     },
     "tidycensus": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "tidycensus",
         "Type": "Package",
@@ -4708,11 +4108,7 @@
     },
     "tidyr": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "tidyr",
         "Title": "Tidy Messy Data",
@@ -4744,11 +4140,7 @@
     },
     "tidyselect": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "tidyselect",
         "Title": "Select from a Set of Strings",
@@ -4778,11 +4170,7 @@
     },
     "tigris": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "tigris",
         "Type": "Package",
@@ -4811,11 +4199,7 @@
     },
     "timechange": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "timechange",
         "Title": "Efficient Manipulation of Date-Times",
@@ -4842,11 +4226,7 @@
     },
     "tinytex": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "tinytex",
         "Type": "Package",
@@ -4872,11 +4252,7 @@
     },
     "tzdb": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "tzdb",
         "Title": "Time Zone Database Information",
@@ -4906,11 +4282,7 @@
     },
     "units": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "units",
         "Version": "0.8-1",
@@ -4940,11 +4312,7 @@
     },
     "utf8": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "utf8",
         "Title": "Unicode Text Processing",
@@ -4971,11 +4339,7 @@
     },
     "uuid": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "uuid",
         "Version": "1.1-0",
@@ -4996,11 +4360,7 @@
     },
     "vctrs": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "vctrs",
         "Title": "Vector Helpers",
@@ -5030,11 +4390,7 @@
     },
     "viridisLite": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "viridisLite",
         "Type": "Package",
@@ -5060,11 +4416,7 @@
     },
     "vroom": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "vroom",
         "Title": "Read and Write Rectangular Text Data Quickly",
@@ -5098,11 +4450,7 @@
     },
     "waldo": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "waldo",
         "Title": "Find Differences Between R Objects",
@@ -5129,11 +4477,7 @@
     },
     "webshot": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "webshot",
         "Title": "Take Screenshots of Web Pages",
@@ -5161,11 +4505,7 @@
     },
     "withr": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "withr",
         "Title": "Run Code 'With' Temporarily Modified Global State",
@@ -5195,11 +4535,7 @@
     },
     "wk": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "wk",
         "Title": "Lightweight Well-Known Geometry Parsing",
@@ -5226,11 +4562,7 @@
     },
     "writexl": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "writexl",
         "Type": "Package",
@@ -5256,11 +4588,7 @@
     },
     "xfun": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "xfun",
         "Type": "Package",
@@ -5287,11 +4615,7 @@
     },
     "xml2": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "xml2",
         "Title": "Parse XML",
@@ -5320,11 +4644,7 @@
     },
     "xtable": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "xtable",
         "Version": "1.8-4",
@@ -5349,11 +4669,7 @@
     },
     "yaml": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "yaml",
         "Type": "Package",
@@ -5376,11 +4692,7 @@
     },
     "zipcodeR": {
       "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "GithubRepo": null,
-      "GithubUsername": null,
-      "GithubRef": null,
-      "GithubSha1": null,
+      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2023-04-14",
       "description": {
         "Package": "zipcodeR",
         "Title": "Data & Functions for Working with US ZIP Codes",
@@ -5409,17 +4721,17 @@
     }
   },
   "files": {
-    "CensusDatabaseRefreshTesting.html": {
-      "checksum": "af245377606b152386dbb29f71a88019"
-    },
     "CensusDatabaseRefreshTesting.Rmd": {
-      "checksum": "4b8593e061dd30238fe4411777ab0903"
+      "checksum": "e06e8d87d12e9c255497c461aa8435be"
     },
     "CensusDatabaseTesting.R": {
-      "checksum": "c1a558b47c3555937c7d241346f36fa4"
+      "checksum": "2296d93262916b11a386c39a13b5aaf3"
     },
     "CreateDummyCensus.R": {
       "checksum": "95f2d31d4b52fa0d80404cfc8d2f2215"
+    },
+    "DebugDatabaseDuplicates.R": {
+      "checksum": "46dc307084d7a54faceb0d70fc107f3d"
     },
     "README.md": {
       "checksum": "85f539031da4eb755d01fad88353e2ce"
