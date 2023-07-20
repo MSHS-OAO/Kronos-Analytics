@@ -82,18 +82,18 @@ get_values <- function(x, table_name){
   return(values)
 }
 
-write_temp_census_table_to_db_and_merge <- function(processed_input_data,table_name){
+write_temp_census_table_to_db_and_merge <- function(processed_input_data,TABLE_NAME){
   if(nrow(processed_input_data) == 0) {
     print("no new data")
   } else{
     
-    # Constants
-    DATA_TYPES <- c(SITE = "Varchar2(50 CHAR)",
-                    DEPARTMENT = "Varchar2(50 CHAR)",
-                    CENSUS = "Number(38,0)",
-                    REFRESH_TIME = "Timestamp")
-    
-    TABLE_NAME <- paste0("CENSUS_LAST_REFRESH")
+    # # Constants
+    # DATA_TYPES <- c(SITE = "Varchar2(50 CHAR)",
+    #                 DEPARTMENT = "Varchar2(50 CHAR)",
+    #                 CENSUS = "Number(38,0)",
+    #                 REFRESH_TIME = "Timestamp")
+    # 
+    # TABLE_NAME <- paste0("CENSUS_LAST_REFRESH")
     
     
     # Ensure all the fields are correct data type
@@ -144,10 +144,8 @@ write_temp_census_table_to_db_and_merge <- function(processed_input_data,table_n
     truncate_query <- glue('TRUNCATE TABLE "{TABLE_NAME}";')
     
     print("Before OAO Cloud DB Connection")
-    # conn <- dbConnect(drv = odbc::odbc(),  ## Create connection for updating picker choices
-    #                   dsn = dsn)
     
-    oao_personal_dsn <- "OAO Cloud DB Kate"
+    oao_personal_dsn <- "OAO Cloud DB Greg"
     
     oao_personal_conn <- dbConnect(odbc(),
                                    oao_personal_dsn)
@@ -169,25 +167,19 @@ write_temp_census_table_to_db_and_merge <- function(processed_input_data,table_n
       print("Success!")
     },
     error = function(err){
-      #print(err)
       dbRollback(oao_personal_conn)
-      dbDisconnect(oao_personal_conn)
       dbExecute(oao_personal_conn, truncate_query)
+      dbCommit(oao_personal_conn)
+      dbDisconnect(oao_personal_conn)
       print("Error")
     })
   }
 }
 
 write_temp_census_table_to_db_and_merge(processed_input_data = census_summary,
-                                        table_name = "CENSUS_LAST_REFRESH")
+                                        TABLE_NAME = "CENSUS_LAST_REFRESH")
 
 # ---------------------------------------------------------------------------
-
-# lenang01 connection
-oao_personal_dsn <- "OAO Cloud DB Greg"
-
-oao_personal_conn <- dbConnect(odbc(),
-                               oao_personal_dsn)
 # get refresh hour to check if it is one of four refresh numbers
 refresh_hour <- unique(as.character(hour(census_summary$REFRESH_TIME) + 1))
 if (nchar(refresh_hour) == 1) {
