@@ -61,13 +61,13 @@ dbDisconnect(epic_conn)
 
 print("Disconnected from Epic Clarity database")
 
-saveRDS(census_summary,
-        file = paste0(root_path,
-                      "HSPI-PM/Operations Analytics and Optimization/Projects/",
-                      "System Operations/Kronos Analytics/Data/Epic Clarity Census/",
-                      "EpicClarityCensusPull_",
-                      format(max(unique(census_summary$REFRESH_TIME)), "%Y-%m-%d %H%M"),
-                      ".RDS"))
+# saveRDS(census_summary,
+#         file = paste0(root_path,
+#                       "HSPI-PM/Operations Analytics and Optimization/Projects/",
+#                       "System Operations/Kronos Analytics/Data/Epic Clarity Census/",
+#                       "EpicClarityCensusPull_",
+#                       format(max(unique(census_summary$REFRESH_TIME)), "%Y-%m-%d %H%M"),
+#                       ".RDS"))
 
 get_values <- function(x, table_name){
   
@@ -180,3 +180,206 @@ write_temp_census_table_to_db_and_merge <- function(processed_input_data,table_n
 
 write_temp_census_table_to_db_and_merge(processed_input_data = census_summary,
                                         table_name = "CENSUS_LAST_REFRESH")
+
+# ---------------------------------------------------------------------------
+
+# lenang01 connection
+oao_personal_dsn <- "OAO Cloud DB Greg"
+
+oao_personal_conn <- dbConnect(odbc(),
+                               oao_personal_dsn)
+# get refresh hour to check if it is one of four refresh numbers
+refresh_hour <- unique(as.character(hour(census_summary$REFRESH_TIME) + 1))
+if (nchar(refresh_hour) == 1) {
+  refresh_hour <- paste0("0", refresh_hour)
+}
+data_refresh <- tbl(oao_personal_conn, "DATA_REFRESH") %>%
+  filter(REFRESH_NUMBER %in% c("1", "2", "3", "4")) %>%
+  collect()
+if (refresh_hour %in% data_refresh$REFRESH_HOUR) {
+  target_update <- "yes"
+} else {
+  target_update <- "no"
+}
+
+
+# if this run is a refresh number then we will merge to the target table
+if (target_update == "yes") {
+  # function to convert each row of target query to an insert clause
+  get_values_target <- function(x, table_name){
+    
+    site <- x[1]
+    dept <- x[2]
+    refresh_time <- x[3]
+    refresh_hour <- x[4]
+    refresh_number <- x[5]
+    dow <- x[6]
+    census <- x[7]
+    patient_charge <- x[8]
+    patient_rn <- x[9]
+    patient_na <- x[10]
+    charge_rn <- x[11]
+    rn <- x[12]
+    na <- x[13]
+    manager <- x[14]
+    assistant_manager <- x[15]
+    secretary <- x[16]
+    administrator <- x[17]
+    
+    values <- glue("INTO \"{table_name}\" (SITE,DEPARTMENT,REFRESH_TIME, 
+                                           REFRESH_HOUR, REFRESH_NUMBER, DOW, 
+                                           CENSUS, PATIENT_CHARGE, PATIENT_RN, 
+                                           PATIENT_NA, CHARGE_RN, RN, NA, 
+                                           MANAGER, ASSISTANT_MANAGER, 
+                                           SECRETARY, ADMINISTRATOR) 
+                 VALUES ('{site}','{dept}',
+                         TO_TIMESTAMP('{refresh_time}','YYYY-MM-DD HH24:MI:SS'),
+                         '{refresh_hour}', '{refresh_number}', '{dow}',
+                         '{census}', '{patient_charge}', '{patient_rn}',
+                         '{patient_na}', '{charge_rn}', '{rn}', '{na}',
+                         '{manager}', '{assistant_manager}', '{secretary}',
+                         '{administrator}')")
+    
+    return(values)
+  }
+  
+  # target update query
+  target_update_query <- glue(
+    "select CT.SITE,
+       CT.DEPARTMENT,
+       CT.REFRESH_TIME,
+       EXTRACT(HOUR from CT.REFRESH_TIME) + 1 as REFRESH_HOUR,
+       DR.REFRESH_NUMBER,
+       TRIM(TO_CHAR(CT.REFRESH_TIME, 'DAY')) as DOW,
+       CT.CENSUS,
+       R.PATIENT_CHARGE,
+       R.PATIENT_RN,
+       R.PATIENT_NA,
+       1 as CHARGE_RN,
+       CEIL((CT.CENSUS - R.PATIENT_CHARGE) / R.PATIENT_RN) as RN,
+       CEIL((CT.CENSUS) / R.PATIENT_NA) as NA,
+       M.MANAGER,
+       M.ASSISTANT_MANAGER,
+       M.SECRETARY,
+       M.ADMINISTRATOR
+  from NEVINK01.MSHS_CENSUS_REPO CT
+  left join DATA_REFRESH DR
+    on EXTRACT(HOUR from CT.REFRESH_TIME) + 1 = DR.REFRESH_HOUR
+  left join RATIOS R
+    on CT.SITE = R.SITE AND
+       CT.DEPARTMENT = R.DEPARTMENT
+  left join MANAGEMENT M
+    on CT.SITE = M.SITE AND
+       CT.DEPARTMENT = M.DEPARTMENT AND
+       TRIM(TO_CHAR(CT.REFRESH_TIME, 'DAY')) = M.DOW
+  where DR.REFRESH_NUMBER <> 'NA' AND
+        CT.SITE = 'MOUNT SINAI QUEENS';"
+  )
+  
+  # convert target query to proper data format for insert to TARGET_TEMP
+  target <- dbFetch(dbSendQuery(oao_personal_conn, target_update_query)) %>%
+    mutate(SITE = as.character(SITE),
+           DEPARTMENT = as.character(DEPARTMENT),
+           REFRESH_TIME = format(REFRESH_TIME, "%Y-%m-%d %H:%M"),
+           REFRESH_HOUR = as.character(REFRESH_HOUR),
+           REFRESH_NUMBER = as.character(REFRESH_NUMBER),
+           DOW = as.character(DOW),
+           CENSUS = as.integer(CENSUS),
+           PATIENT_CHARGE = as.integer(PATIENT_CHARGE),
+           PATIENT_RN = as.integer(PATIENT_RN),
+           PATIENT_NA = as.integer(PATIENT_NA),
+           CHARGE_RN = as.integer(CHARGE_RN),
+           RN = as.integer(RN),
+           `NA` = as.integer(`NA`),
+           MANAGER = as.integer(MANAGER),
+           ASSISTANT_MANAGER = as.integer(ASSISTANT_MANAGER),
+           SECRETARY = as.integer(SECRETARY),
+           ADMINISTRATOR = as.integer(ADMINISTRATOR))
+  
+  # temp and live target tables
+  TABLE_NAME_TARGET_TEMP <- paste0("TARGET_TEMP")
+  TABLE_NAME_TARGET <- paste0("TARGET")
+  
+  # Convert the each record/row of tibble to INTO clause of insert statment
+  inserts_target <- lapply(
+    lapply(
+      lapply(split(target , 
+                   1:nrow(target)),
+             as.list), 
+      as.character),
+    FUN = get_values_target, TABLE_NAME_TARGET_TEMP)
+  
+  values_target <- glue_collapse(inserts_target, sep = "\n\n")
+  
+  # Combine into statements from get_values() function and combine with
+  # insert statements
+  all_data_target <- glue('INSERT ALL
+                              {values_target}
+                          SELECT 1 from DUAL;')
+  
+  # merge query for merging TARGET_TEMP into TARGET
+  merge_target <- glue(
+    "MERGE INTO \"{TABLE_NAME_TARGET}\" TARGET
+     USING \"{TABLE_NAME_TARGET_TEMP}\" TEMP
+     ON ( TARGET.SITE = TEMP.SITE AND
+          TARGET.DEPARTMENT = TEMP.DEPARTMENT AND
+          TARGET.REFRESH_TIME = TEMP.REFRESH_TIME )
+     WHEN MATCHED THEN 
+     UPDATE SET TARGET.CENSUS = TEMP.CENSUS,
+                TARGET.PATIENT_CHARGE = TEMP.PATIENT_CHARGE,
+                TARGET.PATIENT_RN = TEMP.PATIENT_RN,
+                TARGET.PATIENT_NA = TEMP.PATIENT_NA,
+                TARGET.CHARGE_RN = TEMP.CHARGE_RN,
+                TARGET.RN = TEMP.RN,
+                TARGET.NA = TEMP.NA,
+                TARGET.MANAGER = TEMP.MANAGER,
+                TARGET.ASSISTANT_MANAGER = TEMP.ASSISTANT_MANAGER,
+                TARGET.SECRETARY = TEMP.SECRETARY,
+                TARGET.ADMINISTRATOR = TEMP.ADMINISTRATOR
+    WHEN NOT MATCHED THEN
+    INSERT( TARGET.SITE,
+            TARGET.DEPARTMENT,
+            TARGET.REFRESH_TIME,
+            TARGET.REFRESH_HOUR,
+            TARGET.REFRESH_NUMBER,
+            TARGET.DOW,
+            TARGET.CENSUS,
+            TARGET.PATIENT_CHARGE,
+            TARGET.PATIENT_RN,
+            TARGET.PATIENT_NA,
+            TARGET.CHARGE_RN,
+            TARGET.RN,
+            TARGET.NA,
+            TARGET.MANAGER,
+            TARGET.ASSISTANT_MANAGER,
+            TARGET.SECRETARY,
+            TARGET.ADMINISTRATOR )
+    VALUES( TEMP.SITE,
+            TEMP.DEPARTMENT,
+            TEMP.REFRESH_TIME,
+            TEMP.REFRESH_HOUR,
+            TEMP.REFRESH_NUMBER,
+            TEMP.DOW,
+            TEMP.CENSUS,
+            TEMP.PATIENT_CHARGE,
+            TEMP.PATIENT_RN,
+            TEMP.PATIENT_NA,
+            TEMP.CHARGE_RN,
+            TEMP.RN,
+            TEMP.NA,
+            TEMP.MANAGER,
+            TEMP.ASSISTANT_MANAGER,
+            TEMP.SECRETARY,
+            TEMP.ADMINISTRATOR )")
+  
+  truncate_target <- glue(
+    'TRUNCATE TABLE \"{TABLE_NAME_TARGET_TEMP}\"'
+  )
+  
+  dbBegin(oao_personal_conn)
+  dbExecute(oao_personal_conn, all_data_target)
+  dbExecute(oao_personal_conn, merge_target)
+  dbExecute(oao_personal_conn, truncate_target)
+  dbCommit(oao_personal_conn)
+  
+}
