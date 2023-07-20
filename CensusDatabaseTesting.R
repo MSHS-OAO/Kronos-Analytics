@@ -205,6 +205,13 @@ if (refresh_hour %in% data_refresh$REFRESH_HOUR) {
 
 # if this run is a refresh number then we will merge to the target table
 if (target_update == "yes") {
+  
+  # get current max refresh time in the target table
+  max_target_refresh <- max(tbl(oao_personal_conn, "TARGET") %>%
+                              select(REFRESH_TIME) %>%
+                              collect() %>%
+                              pull())
+      
   # function to convert each row of target query to an insert clause
   get_values_target <- function(x, table_name){
     
@@ -272,7 +279,8 @@ if (target_update == "yes") {
     on CT.SITE = M.SITE AND
        CT.DEPARTMENT = M.DEPARTMENT AND
        TRIM(TO_CHAR(CT.REFRESH_TIME, 'DAY')) = M.DOW
-  where DR.REFRESH_NUMBER <> 'NA' AND
+  where CT.REFRESH_TIME >= TIMESTAMP '{max_target_refresh}' AND
+        DR.REFRESH_NUMBER <> 'NA' AND
         CT.SITE = 'MOUNT SINAI QUEENS';"
   )
   
@@ -377,9 +385,28 @@ if (target_update == "yes") {
   )
   
   dbBegin(oao_personal_conn)
-  dbExecute(oao_personal_conn, all_data_target)
-  dbExecute(oao_personal_conn, merge_target)
-  dbExecute(oao_personal_conn, truncate_target)
-  dbCommit(oao_personal_conn)
-  
+  # ## Execute staments and if there is an error  with one of them rollback changes
+  tryCatch({
+    print("Before first truncate")
+    dbExecute(oao_personal_conn, truncate_target)
+    print("After first truncate")
+    dbExecute(oao_personal_conn, all_data_target)
+    print("After all data glue statement")
+    dbExecute(oao_personal_conn, merge_target)
+    print("After merge")
+    dbExecute(oao_personal_conn, truncate_target)
+    print("After second truncate")
+    dbCommit(oao_personal_conn)
+    dbDisconnect(oao_personal_conn)
+    print("Success!")
+  },
+  error = function(err){
+    dbRollback(oao_personal_conn)
+    dbExecute(oao_personal_conn, truncate_query)
+    dbCommit(oao_personal_conn)
+    dbDisconnect(oao_personal_conn)
+    print("Error")
+  })
+} else {
+  print("TARGET table received no updates")
 }
