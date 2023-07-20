@@ -14,6 +14,7 @@ library(odbc)
 library(dplyr)
 library(glue)
 library(dbplyr)
+library(lubridate)
 ```
 
 ## Source test script
