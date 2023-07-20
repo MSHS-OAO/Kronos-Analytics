@@ -266,7 +266,7 @@ if (target_update == "yes") {
        M.ASSISTANT_MANAGER,
        M.SECRETARY,
        M.ADMINISTRATOR
-  from NEVINK01.MSHS_CENSUS_REPO CT
+  from MSHS_CENSUS_REPO CT
   left join DATA_REFRESH DR
     on EXTRACT(HOUR from CT.REFRESH_TIME) + 1 = DR.REFRESH_HOUR
   left join RATIOS R
@@ -275,7 +275,8 @@ if (target_update == "yes") {
   left join MANAGEMENT M
     on CT.SITE = M.SITE AND
        CT.DEPARTMENT = M.DEPARTMENT AND
-       TRIM(TO_CHAR(CT.REFRESH_TIME, 'DAY')) = M.DOW
+       TRIM(TO_CHAR(CT.REFRESH_TIME, 'DAY')) = M.DOW AND
+       DR.REFRESH_NUMBER = M.REFRESH_NUMBER
   where CT.REFRESH_TIME >= TIMESTAMP '{max_target_refresh}' AND
         DR.REFRESH_NUMBER <> 'NA' AND
         CT.SITE = 'MOUNT SINAI QUEENS';"
