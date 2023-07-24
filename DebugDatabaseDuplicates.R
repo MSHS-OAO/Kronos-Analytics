@@ -63,7 +63,7 @@ oao_personal_dsn <- "OAO Cloud DB Kate"
 census_conn <- dbConnect(odbc(),
                          oao_personal_dsn)
 
-census_tbl <- tbl(census_conn, "CENSUS_TEST")
+census_tbl <- tbl(census_conn, "MSHS_CENSUS_REPO")
 
 census_df <- census_tbl %>%
   collect()
@@ -82,8 +82,8 @@ census_test_filter <- census_df %>%
   mutate(Concate = paste(SITE, DEPARTMENT, REFRESH_TIME),
          Dupl = duplicated(Concate)) %>%
   filter(!Dupl) %>%
-  arrange(SITE, DEPARTMENT, REFRESH_TIME) %>%
-  select(-Concate, -Dupl) #%>%
+  arrange(SITE, DEPARTMENT, REFRESH_TIME) #%>%
+  # select(-Concate, -Dupl) #%>%
   # relocate(CENSUS, .after = REFRESH_TIME)
 
 census_deleted_rows <- census_deleted_rows %>%
