@@ -61,13 +61,13 @@ dbDisconnect(epic_conn)
 
 print("Disconnected from Epic Clarity database")
 
-saveRDS(census_summary,
-        file = paste0(root_path,
-                      "HSPI-PM/Operations Analytics and Optimization/Projects/",
-                      "System Operations/Kronos Analytics/Data/Epic Clarity Census/",
-                      "EpicClarityCensusPull_",
-                      format(max(unique(census_summary$REFRESH_TIME)), "%Y-%m-%d %H%M"),
-                      ".RDS"))
+# saveRDS(census_summary,
+#         file = paste0(root_path,
+#                       "HSPI-PM/Operations Analytics and Optimization/Projects/",
+#                       "System Operations/Kronos Analytics/Data/Epic Clarity Census/",
+#                       "EpicClarityCensusPull_",
+#                       format(max(unique(census_summary$REFRESH_TIME)), "%Y-%m-%d %H%M"),
+#                       ".RDS"))
 
 get_values <- function(x, table_name){
   
@@ -82,20 +82,13 @@ get_values <- function(x, table_name){
   return(values)
 }
 
-write_temp_census_table_to_db_and_merge <- function(processed_input_data,table_name){
+write_temp_census_table_to_db_and_merge <- function(processed_input_data,
+                                                    temp_table_name,
+                                                    repo_table_name){
   if(nrow(processed_input_data) == 0) {
     print("no new data")
   } else{
-    
-    # Constants
-    DATA_TYPES <- c(SITE = "Varchar2(50 CHAR)",
-                    DEPARTMENT = "Varchar2(50 CHAR)",
-                    CENSUS = "Number(38,0)",
-                    REFRESH_TIME = "Timestamp")
-    
-    TABLE_NAME <- paste0("CENSUS_LAST_REFRESH")
-    
-    
+
     # Ensure all the fields are correct data type
     processed_input_data <- processed_input_data %>%
       mutate(SITE = as.character(SITE),
@@ -104,16 +97,16 @@ write_temp_census_table_to_db_and_merge <- function(processed_input_data,table_n
              REFRESH_TIME = format(REFRESH_TIME, "%Y-%m-%d %H:%M")
       )
     
-    # Convert the each record/row of tibble to INTO clause of insert statment
+    # Convert the each record/row of tibble to INTO clause of insert statement
     inserts <- lapply(
       lapply(
         lapply(split(processed_input_data , 
                      1:nrow(processed_input_data)),
                as.list), 
         as.character),
-      FUN = get_values ,TABLE_NAME)
+      FUN = get_values, temp_table_name)
     
-    values <- glue_collapse(inserts,sep = "\n\n")
+    values <- glue_collapse(inserts, sep = "\n\n")
     
     # Combine into statements from get_values() function and combine with
     # insert statements
@@ -122,8 +115,8 @@ write_temp_census_table_to_db_and_merge <- function(processed_input_data,table_n
                       SELECT 1 from DUAL;')
     
     # glue() query to merge data from temporary table to summary_repo table
-    query = glue('MERGE INTO MSHS_CENSUS_REPO CR
-                    USING "{TABLE_NAME}" SOURCE_TABLE
+    query = glue('MERGE INTO "{repo_table_name}" CR
+                    USING "{temp_table_name}" SOURCE_TABLE
                     ON (  CR."SITE" = SOURCE_TABLE."SITE" AND
                           CR."DEPARTMENT" = SOURCE_TABLE."DEPARTMENT" AND
                           CR."REFRESH_TIME" = SOURCE_TABLE."REFRESH_TIME")
@@ -141,29 +134,27 @@ write_temp_census_table_to_db_and_merge <- function(processed_input_data,table_n
                             SOURCE_TABLE."REFRESH_TIME");')
     
     # glue query for dropping the table
-    truncate_query <- glue('TRUNCATE TABLE "{TABLE_NAME}";')
+    truncate_query <- glue('TRUNCATE TABLE "{temp_table_name}";')
     
     print("Before OAO Cloud DB Connection")
-    # conn <- dbConnect(drv = odbc::odbc(),  ## Create connection for updating picker choices
-    #                   dsn = dsn)
-    
+
     oao_personal_dsn <- "OAO Cloud DB Kate"
     
     oao_personal_conn <- dbConnect(odbc(),
                                    oao_personal_dsn)
     
     dbBegin(oao_personal_conn)
-    # ## Execute staments and if there is an error  with one of them rollback changes
+    # ## Execute statements and if there is an error  with one of them rollback changes
     tryCatch({
-      print("Before first truncate")
+      print("Before first truncate of temporary census table")
       dbExecute(oao_personal_conn, truncate_query)
-      print("After first truncate")
+      print("After first truncate of temporary census table")
       dbExecute(oao_personal_conn, all_data)
       print("After all data glue statement")
       dbExecute(oao_personal_conn, query)
-      print("After merge")
+      print("After merge into census repo table")
       dbExecute(oao_personal_conn, truncate_query)
-      print("After second truncate")
+      print("After second truncate of temporary census table")
       dbCommit(oao_personal_conn)
       dbDisconnect(oao_personal_conn)
       print("Success!")
@@ -171,12 +162,13 @@ write_temp_census_table_to_db_and_merge <- function(processed_input_data,table_n
     error = function(err){
       #print(err)
       dbRollback(oao_personal_conn)
-      dbDisconnect(oao_personal_conn)
       dbExecute(oao_personal_conn, truncate_query)
+      dbDisconnect(oao_personal_conn)
       print("Error")
     })
   }
 }
 
 write_temp_census_table_to_db_and_merge(processed_input_data = census_summary,
-                                        table_name = "CENSUS_LAST_REFRESH")
+                                        temp_table_name = "CENSUS_LAST_REFRESH",
+                                        repo_table_name ="MSHS_CENSUS_REPO")
