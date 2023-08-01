@@ -217,10 +217,8 @@ write_temp_census_table_to_db_and_merge <- function(processed_input_data,
 ```
 
 ```{r Call custom functions to write and merge data to database, echo = TRUE, error = TRUE}
-census_summary2 <- census_summary %>%
-  mutate(REFRESH_TIME = 'ABC')
 
-write_temp_census_table_to_db_and_merge(processed_input_data = census_summary2,
+write_temp_census_table_to_db_and_merge(processed_input_data = census_summary,
                                         temp_table_name = "CENSUS_LAST_REFRESH",
                                         repo_table_name ="MSHS_CENSUS_REPO")
 
