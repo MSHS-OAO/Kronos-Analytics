@@ -5,7 +5,7 @@ date: "2023-06-29"
 ---
 
 ```{r setup, include=FALSE}
-# knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, error = TRUE, warning = FALSE, message = FALSE)
 
 rm(list = ls())
 
@@ -39,7 +39,7 @@ library(glue)
 library(knitr)
 ```
 
-```{r Determine and set root path, echo = FALSE}
+```{r Determine and set root path}
 define_root_path <- function(){
   #Check if OS in Linux
   if(Sys.info()['sysname'] == 'Linux'){
@@ -66,7 +66,7 @@ define_root_path <- function(){
 root_path <- define_root_path()
 ```
 
-```{r Connect to Epic Clarity database and pull latest census data, echo = FALSE, error = TRUE}
+```{r Connect to Epic Clarity database and pull latest census data}
 print("Start")
 
 # Connect to Clarity table and pull in latest census data
@@ -102,7 +102,7 @@ print("Disconnected from Epic Clarity database")
 
 ```
 
-```{r Save census summary as RDS, echo = FALSE}
+```{r Save census summary as RDS}
 # saveRDS(census_summary,
 #         file = paste0(root_path,
 #                       "HSPI-PM/Operations Analytics and Optimization/Projects/",
@@ -113,7 +113,7 @@ print("Disconnected from Epic Clarity database")
 
 ```
 
-```{r Functions to write census to temporary table and merge with repository, echo = FALSE}
+```{r Functions to write census to temporary table and merge with repository}
 get_values <- function(x, table_name){
   
   site <- x[1]
@@ -216,9 +216,11 @@ write_temp_census_table_to_db_and_merge <- function(processed_input_data,
 
 ```
 
-```{r Call custom functions to write and merge data to database, echo = TRUE, error = TRUE}
+```{r Call custom functions to write and merge data to database}
+census_summary2 <- census_summary %>%
+  mutate(REFRESH_TIME = 'ABC')
 
-write_temp_census_table_to_db_and_merge(processed_input_data = census_summary,
+write_temp_census_table_to_db_and_merge(processed_input_data = census_summary2,
                                         temp_table_name = "CENSUS_LAST_REFRESH",
                                         repo_table_name ="MSHS_CENSUS_REPO")
 
