@@ -113,118 +113,107 @@ print("Disconnected from Epic Clarity database")
 
 ```
 
-```{r Functions to write census to temporary table and merge with repository}
-get_values <- function(x, table_name){
+```{r Custom function to get values from each row of census data}
+get_values_census <- function(x, temp_table_name){
   
   site <- x[1]
   dept <- x[2]
   census <- x[3]
   refresh_time <- x[4]
   
-  values <- glue("INTO \"{table_name}\" (SITE,DEPARTMENT,CENSUS,REFRESH_TIME) 
+  values <- glue("INTO \"{temp_table_name}\" (SITE,DEPARTMENT,CENSUS,REFRESH_TIME) 
                  VALUES ('{site}','{dept}','{census}',TO_TIMESTAMP('{refresh_time}','YYYY-MM-DD HH24:MI:SS'))")
   
   return(values)
 }
 
-write_temp_census_table_to_db_and_merge <- function(processed_input_data,
-                                                    temp_table_name,
-                                                    repo_table_name){
-  if(nrow(processed_input_data) == 0) {
-    print("no new data")
-  } else{
+```
 
-    # Ensure all the fields are correct data type
-    processed_input_data <- processed_input_data %>%
-      mutate(SITE = as.character(SITE),
-             DEPARTMENT = as.character(DEPARTMENT),
-             CENSUS = as.integer(CENSUS),
-             REFRESH_TIME = format(REFRESH_TIME, "%Y-%m-%d %H:%M")
-      )
-    
-    # Convert the each record/row of tibble to INTO clause of insert statement
-    inserts <- lapply(
-      lapply(
-        lapply(split(processed_input_data , 
-                     1:nrow(processed_input_data)),
-               as.list), 
-        as.character),
-      FUN = get_values, temp_table_name)
-    
-    values <- glue_collapse(inserts, sep = "\n\n")
-    
-    # Combine into statements from get_values() function and combine with
-    # insert statements
-    all_data <- glue('INSERT ALL
-                        {values}
-                      SELECT 1 from DUAL;')
-    
-    # glue() query to merge data from temporary table to summary_repo table
-    query = glue('MERGE INTO "{repo_table_name}" CR
-                    USING "{temp_table_name}" SOURCE_TABLE
-                    ON (  CR."SITE" = SOURCE_TABLE."SITE" AND
-                          CR."DEPARTMENT" = SOURCE_TABLE."DEPARTMENT" AND
-                          CR."REFRESH_TIME" = SOURCE_TABLE."REFRESH_TIME")
-                    WHEN MATCHED THEN 
-                    UPDATE  SET CR."CENSUS" = SOURCE_TABLE."CENSUS"
-                    WHEN NOT MATCHED THEN
-                    INSERT( CR."SITE",
-                            CR."DEPARTMENT",
-                            CR."CENSUS",
-                            CR."REFRESH_TIME"
-                            )  
-                    VALUES( SOURCE_TABLE."SITE",
-                            SOURCE_TABLE."DEPARTMENT",
-                            SOURCE_TABLE."CENSUS",
-                            SOURCE_TABLE."REFRESH_TIME");')
-    
-    # glue query for dropping the table
-    truncate_query <- glue('TRUNCATE TABLE "{temp_table_name}";')
-    
-    print("Before OAO Cloud DB Connection")
+```{r Code to write census data to temporary table and merge with repository}
 
-    oao_personal_dsn <- "OAO Cloud DB Kate"
-    
-    oao_personal_conn <- dbConnect(odbc(),
-                                   oao_personal_dsn)
-    
-    dbBegin(oao_personal_conn)
-    # ## Execute statements and if there is an error  with one of them rollback changes
-    tryCatch({
-      print("Before first truncate of temporary census table")
-      dbExecute(oao_personal_conn, truncate_query)
-      print("After first truncate of temporary census table")
-      dbExecute(oao_personal_conn, all_data)
-      print("After all data glue statement")
-      dbExecute(oao_personal_conn, query)
-      print("After merge into census repo table")
-      dbExecute(oao_personal_conn, truncate_query)
-      print("After second truncate of temporary census table")
-      dbCommit(oao_personal_conn)
-      dbDisconnect(oao_personal_conn)
-      print("Success!")
-    },
-    error = function(err){
-      #print(err)
-      dbRollback(oao_personal_conn)
-      dbExecute(oao_personal_conn, truncate_query)
-      dbDisconnect(oao_personal_conn)
-      print("Error")
-    })
+if(nrow(census_summary) > 0) {
+  temp_table_name <- "CENSUS_LAST_REFRESH"
+  repo_table_name <- "MSHS_CENSUS_REPO"
+  
+  # Ensure all the fields are correct data type
+  census_summary_db <- census_summary %>%
+    mutate(SITE = as.character(SITE),
+           DEPARTMENT = as.character(DEPARTMENT),
+           CENSUS = as.integer(CENSUS),
+           REFRESH_TIME = format(REFRESH_TIME, "%Y-%m-%d %H:%M")
+           )
+  
+  # Convert the each row of census data to INTO clause of insert statement
+  inserts <- lapply(
+    lapply(
+      lapply(split(census_summary_db, 
+                   1:nrow(census_summary_db)),
+             as.list), 
+      as.character),
+    FUN = get_values, temp_table_name)
+  
+  values <- glue_collapse(inserts, sep = "\n\n")
+  
+  # Combine into statements from get_values() function and combine with insert statements
+  all_data <- glue('INSERT ALL
+                    {values}
+                   SELECT 1 from DUAL;')
+  
+  # glue() query to merge data from temporary table to summary_repo table
+  query = glue('MERGE INTO "{repo_table_name}" CR
+                USING "{temp_table_name}" SOURCE_TABLE
+                ON (CR."SITE" = SOURCE_TABLE."SITE" AND
+                    CR."DEPARTMENT" = SOURCE_TABLE."DEPARTMENT" AND
+                    CR."REFRESH_TIME" = SOURCE_TABLE."REFRESH_TIME")
+                WHEN MATCHED THEN
+                UPDATE  SET CR."CENSUS" = SOURCE_TABLE."CENSUS"
+                WHEN NOT MATCHED THEN
+                INSERT(CR."SITE",
+                       CR."DEPARTMENT",
+                       CR."CENSUS",
+                       CR."REFRESH_TIME")  
+                VALUES(SOURCE_TABLE."SITE",
+                       SOURCE_TABLE."DEPARTMENT",
+                       SOURCE_TABLE."CENSUS",
+                       SOURCE_TABLE."REFRESH_TIME");')
+  
+  # glue query for dropping the table
+  truncate_query <- glue('TRUNCATE TABLE "{temp_table_name}";')
+  
+  print("Before OAO Cloud DB Connection")
+  
+  oao_personal_dsn <- "OAO Cloud DB Kate"
+  
+  oao_personal_conn <- dbConnect(odbc(),
+                                 oao_personal_dsn)
+  
+  dbBegin(oao_personal_conn)
+  # ## Execute statements and if there is an error  with one of them rollback changes
+  tryCatch({
+    print("Before first truncate of temporary census table")
+    dbExecute(oao_personal_conn, truncate_query)
+    print("After first truncate of temporary census table")
+    dbExecute(oao_personal_conn, all_data)
+    print("After all data glue statement")
+    dbExecute(oao_personal_conn, query)
+    print("After merge into census repo table")
+    dbExecute(oao_personal_conn, truncate_query)
+    print("After second truncate of temporary census table")
+    dbCommit(oao_personal_conn)
+    dbDisconnect(oao_personal_conn)
+    print("Success - Census table has been updated!")
+  }, 
+  error = function(err){
+    #print(err)
+    dbRollback(oao_personal_conn)
+    dbExecute(oao_personal_conn, truncate_query)
+    dbDisconnect(oao_personal_conn)
+    print("Error")
   }
+  )
+} else {
+  print("No new census data.")
 }
-
 ```
-
-```{r Call custom functions to write and merge data to database}
-# census_summary2 <- census_summary %>%
-#   mutate(REFRESH_TIME = 'ABC')
-
-write_temp_census_table_to_db_and_merge(processed_input_data = census_summary,
-                                        temp_table_name = "CENSUS_LAST_REFRESH",
-                                        repo_table_name ="MSHS_CENSUS_REPO")
-
-```
-
 
 `r paste0("Code run at ", Sys.time())`
