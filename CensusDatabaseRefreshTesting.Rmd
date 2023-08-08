@@ -193,18 +193,18 @@ if(nrow(census_summary) > 0) {
   dbBegin(oao_personal_conn)
   # ## Execute statements and if there is an error  with one of them rollback changes
   tryCatch({
-    print("Before first truncate of temporary census table")
+    print("Census Table - Before first truncate of temporary census table")
     dbExecute(oao_personal_conn, truncate_query)
-    print("After first truncate of temporary census table")
+    print("Census Table - After first truncate of temporary census table")
     dbExecute(oao_personal_conn, all_data)
-    print("After all data glue statement")
+    print("Census Table - After all data glue statement")
     dbExecute(oao_personal_conn, query)
-    print("After merge into census repo table")
+    print("Census Table - After merge into census repo table")
     dbExecute(oao_personal_conn, truncate_query)
-    print("After second truncate of temporary census table")
+    print("Census Table - After second truncate of temporary census table")
     dbCommit(oao_personal_conn)
     dbDisconnect(oao_personal_conn)
-    print("Success - Census table has been updated!")
+    print("Census Table - Successfully updated!")
   }, 
   error = function(err){
     #print(err)
@@ -232,6 +232,8 @@ data_refresh <- tbl(oao_personal_conn, "DATA_REFRESH") %>%
   filter(REFRESH_NUMBER %in% c("1", "2", "3", "4")) %>%
   collect()
 target_update <- refresh_hour %in% data_refresh$REFRESH_HOUR
+
+print(ifelse(target_update, "This is a refresh time", "This is not a refresh time."))
 ```
 
 ```{r Execute target update query, eval=target_update}
@@ -298,6 +300,8 @@ oao_personal_conn <- dbConnect(odbc(),
            ASSISTANT_MANAGER = as.integer(ASSISTANT_MANAGER),
            SECRETARY = as.integer(SECRETARY),
            ADMINISTRATOR = as.integer(ADMINISTRATOR))
+  
+  print("Success - Target table created.")
 ```
 
 ```{r Convert the target update query to elements of insert query, eval=target_update}
@@ -426,18 +430,18 @@ oao_personal_conn <- dbConnect(odbc(),
 dbBegin(oao_personal_conn)
   # ## Execute staments and if there is an error  with one of them rollback changes
   tryCatch({
-    print("Before first truncate")
+    print("Target Table - Before first truncate")
     dbExecute(oao_personal_conn, truncate_target)
-    print("After first truncate")
+    print("Target Table - After first truncate")
     dbExecute(oao_personal_conn, all_data_target)
-    print("After all data glue statement")
+    print("Target Table - After all data glue statement")
     dbExecute(oao_personal_conn, merge_target)
-    print("After merge")
+    print("Target Table - After merge")
     dbExecute(oao_personal_conn, truncate_target)
-    print("After second truncate")
+    print("Target Table - After second truncate")
     dbCommit(oao_personal_conn)
     dbDisconnect(oao_personal_conn)
-    print("Success!")
+    print("Target Table - Successfully Updated!")
   },
   error = function(err){
     dbRollback(oao_personal_conn)
