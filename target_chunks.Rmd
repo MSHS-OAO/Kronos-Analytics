@@ -1,185 +1,23 @@
-# Test connection to Oracle database
+---
+title: "Untitled"
+output: html_document
+date: "2023-08-07"
+---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
 
-# Root path -----------
-# Determine root path for  shared drive on R Workbench
-define_root_path <- function(){
-  #Check if OS in Linux
-  if(Sys.info()['sysname'] == 'Linux'){
-    #Check if mapped Sharedrvie starts at folder Presidents or deans
-    ifelse(list.files("/SharedDrive/") == "Presidents",
-           #Define prefix of path to share drive with R Workbench format
-           output <- "/SharedDrive/Presidents/",
-           output <- "/SharedDrive/deans/Presidents/")
-  }#Check if directory is from R Studio; starts with an uppercase letter than ':'
-  else if(grepl("^[[:upper:]]+:", dirname(getwd()))){
-    #Determine which drive is mapped to Sharedrive (x)
-    for(i in LETTERS){
-      if(any(grepl("deans|Presidents", list.files(paste0(i, "://"))))){x <- i}
-    }
-    #Check if mapped Sharedrvie starts at folder Presidents or deans
-    ifelse(list.files(paste0(x, "://")) == "Presidents",
-           #Define prefix of path to share drive with R Studio format
-           output <- paste0(x, ":/Presidents/"),
-           output <- paste0(x, ":/deans/Presidents/"))
-  }
-  return(output)
-} 
+rm(list = ls())
 
-root_path <- define_root_path()
+library(DBI)
+library(odbc)
+library(dplyr)
+library(glue)
+library(dbplyr)
+library(lubridate)
+```
 
-print("Start")
-
-# Connect to Clarity table and pull in latest census data
-epic_dsn <- "Clarity_prod_kate"
-epic_conn <- dbConnect(odbc(), epic_dsn)
-
-print("Connected to Epic Clarity database")
-
-# Pull in data from census table
-census_refresh <- tbl(epic_conn,
-                      in_schema("CRREPORT_REP", "MSHS_CENSUS_TEMP"))
-
-census_summary <- census_refresh %>%
-  distinct() %>%
-  filter(ADMIT_STATUS %in% "Admission" &
-           !is.na(HOSPITAL_AREA) &
-           !is.na(DEPARTMENT)) %>%
-  mutate(MAX_TIME = max(CURRENT_TIME)) %>%
-  group_by(HOSPITAL_AREA, DEPARTMENT, CURRENT_DATE, MAX_TIME) %>%
-  summarize(CENSUS = n()) %>%
-  ungroup() %>%
-  rename(SITE = HOSPITAL_AREA) %>%
-  mutate(REFRESH_TIME = to_timestamp(
-    paste0(CURRENT_DATE, " ", MAX_TIME),
-    'MM/DD/YYYY HH:MI AM')) %>%
-  select(-CURRENT_DATE, -MAX_TIME) %>%
-  arrange(SITE, DEPARTMENT, REFRESH_TIME) %>%
-  collect()
-
-dbDisconnect(epic_conn)
-
-print("Disconnected from Epic Clarity database")
-
-# saveRDS(census_summary,
-#         file = paste0(root_path,
-#                       "HSPI-PM/Operations Analytics and Optimization/Projects/",
-#                       "System Operations/Kronos Analytics/Data/Epic Clarity Census/",
-#                       "EpicClarityCensusPull_",
-#                       format(max(unique(census_summary$REFRESH_TIME)), "%Y-%m-%d %H%M"),
-#                       ".RDS"))
-
-get_values <- function(x, table_name){
-  
-  site <- x[1]
-  dept <- x[2]
-  census <- x[3]
-  refresh_time <- x[4]
-  
-  values <- glue("INTO \"{table_name}\" (SITE,DEPARTMENT,CENSUS,REFRESH_TIME) 
-                 VALUES ('{site}','{dept}','{census}',TO_TIMESTAMP('{refresh_time}','YYYY-MM-DD HH24:MI:SS'))")
-  
-  return(values)
-}
-
-write_temp_census_table_to_db_and_merge <- function(processed_input_data,TABLE_NAME){
-  if(nrow(processed_input_data) == 0) {
-    print("no new data")
-  } else{
-    
-    # # Constants
-    # DATA_TYPES <- c(SITE = "Varchar2(50 CHAR)",
-    #                 DEPARTMENT = "Varchar2(50 CHAR)",
-    #                 CENSUS = "Number(38,0)",
-    #                 REFRESH_TIME = "Timestamp")
-    # 
-    # TABLE_NAME <- paste0("CENSUS_LAST_REFRESH")
-    
-    
-    # Ensure all the fields are correct data type
-    processed_input_data <- processed_input_data %>%
-      mutate(SITE = as.character(SITE),
-             DEPARTMENT = as.character(DEPARTMENT),
-             CENSUS = as.integer(CENSUS),
-             REFRESH_TIME = format(REFRESH_TIME, "%Y-%m-%d %H:%M")
-      )
-    
-    # Convert the each record/row of tibble to INTO clause of insert statment
-    inserts <- lapply(
-      lapply(
-        lapply(split(processed_input_data , 
-                     1:nrow(processed_input_data)),
-               as.list), 
-        as.character),
-      FUN = get_values ,TABLE_NAME)
-    
-    values <- glue_collapse(inserts,sep = "\n\n")
-    
-    # Combine into statements from get_values() function and combine with
-    # insert statements
-    all_data <- glue('INSERT ALL
-                        {values}
-                      SELECT 1 from DUAL;')
-    
-    # glue() query to merge data from temporary table to summary_repo table
-    query = glue('MERGE INTO MSHS_CENSUS_REPO CR
-                    USING "{TABLE_NAME}" SOURCE_TABLE
-                    ON (  CR."SITE" = SOURCE_TABLE."SITE" AND
-                          CR."DEPARTMENT" = SOURCE_TABLE."DEPARTMENT" AND
-                          CR."REFRESH_TIME" = SOURCE_TABLE."REFRESH_TIME")
-                    WHEN MATCHED THEN 
-                    UPDATE  SET CR."CENSUS" = SOURCE_TABLE."CENSUS"
-                    WHEN NOT MATCHED THEN
-                    INSERT( CR."SITE",
-                            CR."DEPARTMENT",
-                            CR."CENSUS",
-                            CR."REFRESH_TIME"
-                            )  
-                    VALUES( SOURCE_TABLE."SITE",
-                            SOURCE_TABLE."DEPARTMENT",
-                            SOURCE_TABLE."CENSUS",
-                            SOURCE_TABLE."REFRESH_TIME");')
-    
-    # glue query for dropping the table
-    truncate_query <- glue('TRUNCATE TABLE "{TABLE_NAME}";')
-    
-    print("Before OAO Cloud DB Connection")
-    
-    oao_personal_dsn <- "OAO Cloud DB Greg"
-    
-    oao_personal_conn <- dbConnect(odbc(),
-                                   oao_personal_dsn)
-    
-    dbBegin(oao_personal_conn)
-    # ## Execute staments and if there is an error  with one of them rollback changes
-    tryCatch({
-      print("Before first truncate")
-      dbExecute(oao_personal_conn, truncate_query)
-      print("After first truncate")
-      dbExecute(oao_personal_conn, all_data)
-      print("After all data glue statement")
-      dbExecute(oao_personal_conn, query)
-      print("After merge")
-      dbExecute(oao_personal_conn, truncate_query)
-      print("After second truncate")
-      dbCommit(oao_personal_conn)
-      dbDisconnect(oao_personal_conn)
-      print("Success!")
-    },
-    error = function(err){
-      dbRollback(oao_personal_conn)
-      dbExecute(oao_personal_conn, truncate_query)
-      dbCommit(oao_personal_conn)
-      dbDisconnect(oao_personal_conn)
-      print("Error")
-    })
-  }
-}
-
-write_temp_census_table_to_db_and_merge(processed_input_data = census_summary,
-                                        TABLE_NAME = "CENSUS_LAST_REFRESH")
-
-# ---------------------------------------------------------------------------
+```{r Check refresh hour to see if it is one of the 4 refresh times}
 oao_personal_dsn <- "OAO Cloud DB Greg"
 
 oao_personal_conn <- dbConnect(odbc(),
@@ -193,61 +31,22 @@ if (nchar(refresh_hour) == 1) {
 data_refresh <- tbl(oao_personal_conn, "DATA_REFRESH") %>%
   filter(REFRESH_NUMBER %in% c("1", "2", "3", "4")) %>%
   collect()
-if (refresh_hour %in% data_refresh$REFRESH_HOUR) {
-  target_update <- "yes"
-} else {
-  target_update <- "no"
-}
+target_update <- refresh_hour %in% data_refresh$REFRESH_HOUR
+```
 
+```{r Execute target update query, eval=target_update}
+oao_personal_dsn <- "OAO Cloud DB Greg"
 
-# if this run is a refresh number then we will merge to the target table
-if (target_update == "yes") {
-  
-  # get current max refresh time in the target table
+oao_personal_conn <- dbConnect(odbc(),
+                               oao_personal_dsn)
+
+# get current max refresh time in the target table
   max_target_refresh <- max(tbl(oao_personal_conn, "TARGET") %>%
                               select(REFRESH_TIME) %>%
                               collect() %>%
                               pull())
-      
-  # function to convert each row of target query to an insert clause
-  get_values_target <- function(x, table_name){
-    
-    site <- x[1]
-    dept <- x[2]
-    refresh_time <- x[3]
-    refresh_hour <- x[4]
-    refresh_number <- x[5]
-    dow <- x[6]
-    census <- x[7]
-    patient_charge <- x[8]
-    patient_rn <- x[9]
-    patient_na <- x[10]
-    charge_rn <- x[11]
-    rn <- x[12]
-    na <- x[13]
-    manager <- x[14]
-    assistant_manager <- x[15]
-    secretary <- x[16]
-    administrator <- x[17]
-    
-    values <- glue("INTO \"{table_name}\" (SITE,DEPARTMENT,REFRESH_TIME, 
-                                           REFRESH_HOUR, REFRESH_NUMBER, DOW, 
-                                           CENSUS, PATIENT_CHARGE, PATIENT_RN, 
-                                           PATIENT_NA, CHARGE_RN, RN, NA, 
-                                           MANAGER, ASSISTANT_MANAGER, 
-                                           SECRETARY, ADMINISTRATOR) 
-                 VALUES ('{site}','{dept}',
-                         TO_TIMESTAMP('{refresh_time}','YYYY-MM-DD HH24:MI:SS'),
-                         '{refresh_hour}', '{refresh_number}', '{dow}',
-                         '{census}', '{patient_charge}', '{patient_rn}',
-                         '{patient_na}', '{charge_rn}', '{rn}', '{na}',
-                         '{manager}', '{assistant_manager}', '{secretary}',
-                         '{administrator}')")
-    
-    return(values)
-  }
-  
-  # target update query
+
+# target update query
   target_update_query <- glue(
     "select CT.SITE,
        CT.DEPARTMENT,
@@ -301,10 +100,50 @@ if (target_update == "yes") {
            ASSISTANT_MANAGER = as.integer(ASSISTANT_MANAGER),
            SECRETARY = as.integer(SECRETARY),
            ADMINISTRATOR = as.integer(ADMINISTRATOR))
-  
+```
+
+```{r Convert the target update query to elements of insert query, eval=target_update}
   # temp and live target tables
   TABLE_NAME_TARGET_TEMP <- paste0("TARGET_TEMP")
   TABLE_NAME_TARGET <- paste0("TARGET")
+  
+  # function to convert each row of target query to an insert clause
+  get_values_target <- function(x, table_name){
+    
+    site <- x[1]
+    dept <- x[2]
+    refresh_time <- x[3]
+    refresh_hour <- x[4]
+    refresh_number <- x[5]
+    dow <- x[6]
+    census <- x[7]
+    patient_charge <- x[8]
+    patient_rn <- x[9]
+    patient_na <- x[10]
+    charge_rn <- x[11]
+    rn <- x[12]
+    na <- x[13]
+    manager <- x[14]
+    assistant_manager <- x[15]
+    secretary <- x[16]
+    administrator <- x[17]
+    
+    values <- glue("INTO \"{table_name}\" (SITE,DEPARTMENT,REFRESH_TIME, 
+                                           REFRESH_HOUR, REFRESH_NUMBER, DOW, 
+                                           CENSUS, PATIENT_CHARGE, PATIENT_RN, 
+                                           PATIENT_NA, CHARGE_RN, RN, NA, 
+                                           MANAGER, ASSISTANT_MANAGER, 
+                                           SECRETARY, ADMINISTRATOR) 
+                 VALUES ('{site}','{dept}',
+                         TO_TIMESTAMP('{refresh_time}','YYYY-MM-DD HH24:MI:SS'),
+                         '{refresh_hour}', '{refresh_number}', '{dow}',
+                         '{census}', '{patient_charge}', '{patient_rn}',
+                         '{patient_na}', '{charge_rn}', '{rn}', '{na}',
+                         '{manager}', '{assistant_manager}', '{secretary}',
+                         '{administrator}')")
+    
+    return(values)
+  }
   
   # Convert the each record/row of tibble to INTO clause of insert statment
   inserts_target <- lapply(
@@ -316,8 +155,10 @@ if (target_update == "yes") {
     FUN = get_values_target, TABLE_NAME_TARGET_TEMP)
   
   values_target <- glue_collapse(inserts_target, sep = "\n\n")
-  
-  # Combine into statements from get_values() function and combine with
+```
+
+```{r Create the insert, truncate and merge queries, eval=target_update}
+# Combine into statements from get_values() function and combine with
   # insert statements
   all_data_target <- glue('INSERT ALL
                               {values_target}
@@ -381,8 +222,10 @@ if (target_update == "yes") {
   truncate_target <- glue(
     'TRUNCATE TABLE \"{TABLE_NAME_TARGET_TEMP}\"'
   )
-  
-  dbBegin(oao_personal_conn)
+```
+
+```{r Execute insert, merge and truncate queries, eval=target_update}
+dbBegin(oao_personal_conn)
   # ## Execute staments and if there is an error  with one of them rollback changes
   tryCatch({
     print("Before first truncate")
@@ -405,7 +248,9 @@ if (target_update == "yes") {
     dbDisconnect(oao_personal_conn)
     print("Error")
   })
-  
+```
+
+```{r Query target table for error log creation, eval=target_update}
   # error log creation
   oao_personal_dsn <- "OAO Cloud DB Greg"
   
@@ -428,7 +273,9 @@ if (target_update == "yes") {
   
   # execute error log query
   error_log_data <- dbFetch(dbSendQuery(oao_personal_conn, error_log_query))
-  
+```
+
+```{r Create error log and save to project folder, eval=target_update}
   # summarise error log data by count of refresh numbers by date
   # filter dates with counts that != 4
   error_log_refresh <- error_log_data %>% 
@@ -463,7 +310,10 @@ if (target_update == "yes") {
                                       REFRESH_NUMBER == REFRESH_NUMBER)) %>%
     filter(is.na(SITE)) %>%
     mutate(REFRESH_DATE = as.Date(REFRESH_DATE)) %>%
-    select(REFRESH_DATE, REFRESH_HOUR, REFRESH_NUMBER)
+    select(REFRESH_DATE, REFRESH_HOUR, REFRESH_NUMBER) %>%
+    rename(MISSING_REFRESH_DATE = REFRESH_DATE,
+           MISSING_REFRESH_HOUR = REFRESH_HOUR,
+           MISSING_REFRESH_NUMBER = REFRESH_NUMBER)
   
   # save error_log with date
   write_xlsx(error_log_final,
@@ -471,6 +321,4 @@ if (target_update == "yes") {
                     "/Projects/System Operations/Kronos Analytics/Data",
                     "/Census Refresh Error Logs/",
                     "Census_Refresh_Error_Log_", Sys.Date(),".xlsx"))
-} else {
-  print("TARGET table received no updates")
-}
+```
