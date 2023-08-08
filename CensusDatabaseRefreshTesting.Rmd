@@ -150,7 +150,7 @@ if(nrow(census_summary) > 0) {
                    1:nrow(census_summary_db)),
              as.list), 
       as.character),
-    FUN = get_values, temp_table_name)
+    FUN = get_values_census, temp_table_name)
   
   values <- glue_collapse(inserts, sep = "\n\n")
   
@@ -182,10 +182,12 @@ if(nrow(census_summary) > 0) {
   
   print("Before OAO Cloud DB Connection")
   
-  oao_personal_dsn <- "OAO Cloud DB Kate"
+  oao_personal_dsn <- "OAO Cloud DB Greg"
   
   oao_personal_conn <- dbConnect(odbc(),
                                  oao_personal_dsn)
+  
+  print("Connected to OAO Cloud DB")
   
   dbBegin(oao_personal_conn)
   # ## Execute statements and if there is an error  with one of them rollback changes
