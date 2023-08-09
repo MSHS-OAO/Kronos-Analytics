@@ -125,4 +125,14 @@ write_xlsx(error_log_final,
                   "/Census Refresh Error Logs/",
                   "Census_Refresh_Error_Log_", Sys.Date(),".xlsx"))
 
+# Find latests error log file -------------
+error_files_path <- paste0(root_path,
+                           "HSPI-PM/Operations Analytics and Optimization",
+                           "/Projects/System Operations/Kronos Analytics/Data",
+                           "/Census Refresh Error Logs")
 
+latest_file <- list.files(error_files_path, full.names = TRUE)[
+  which(file.info(list.files(error_files_path, full.names = TRUE))$ctime ==
+          max(file.info(list.files(error_files_path, full.names = TRUE))$ctime))]
+
+existing_error_log <- read_excel(latest_file)
