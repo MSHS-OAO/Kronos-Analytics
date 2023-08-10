@@ -1,38 +1,19 @@
-# Script to create initial error log
+---
+title: "CreateErrorLog"
+output: html_document
+date: "2023-08-10"
+---
 
-# Load packages ----------------
-rm(list = ls())
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, error = TRUE, warning = FALSE, message = FALSE)
 
-library(readxl)
-library(writexl)
-library(ggplot2)
-library(lubridate)
-library(dplyr)
-library(reshape2)
-library(svDialogs)
-library(stringr)
-library(formattable)
-library(scales)
-library(ggpubr)
-library(reshape2)
-library(knitr)
-library(kableExtra)
-library(rmarkdown)
-library(zipcodeR)
-library(tidyr)
-library(purrr)
-library(janitor)
-library(DT)
-library(shiny)
-library(shinyWidgets)
-library(shinydashboard)
 library(odbc)
-library(dbplyr)
 library(DBI)
-library(glue)
-library(knitr)
+library(dplyr)
+library(dbplyr)
+```
 
-# Define root path --------------------
+```{r Determine and set root path and assign database schema}
 define_root_path <- function(){
   #Check if OS in Linux
   if(Sys.info()['sysname'] == 'Linux'){
@@ -58,9 +39,11 @@ define_root_path <- function(){
 
 root_path <- define_root_path()
 
-# Connect to OAO Cloud database and pull Target table data --------------
+  
 oao_personal_dsn <- "OAO Cloud DB Greg"
+```
 
+```{r Query TARGET table for creation of error log}
 oao_personal_conn <- dbConnect(odbc(),
                                oao_personal_dsn)
 
@@ -80,7 +63,9 @@ error_log_query <- glue(
 
 # execute error log query
 error_log_data <- dbFetch(dbSendQuery(oao_personal_conn, error_log_query))
+```
 
+```{r Create current error log to be appended to latest error log}
 # Summarize data and identify days with missing refreshes
 error_log_refresh <- error_log_data %>%
   group_by(REFRESH_TIME, REFRESH_DATE, REFRESH_HOUR) %>%
@@ -118,7 +103,9 @@ error_log <- data.frame(
   rename(MISSING_REFRESH_DATE = REFRESH_DATE,
          MISSING_REFRESH_HOUR = REFRESH_HOUR,
          MISSING_REFRESH_NUMBER = REFRESH_NUMBER)
+```
 
+```{r Join latest and current error log}
 # find latest error log file 
 error_files_path <- paste0(root_path,
                            "HSPI-PM/Operations Analytics and Optimization",
@@ -137,10 +124,13 @@ error_log_final <- error_log %>%
             by = c("MISSING_REFRESH_DATE" = "MISSING_REFRESH_DATE",
                    "MISSING_REFRESH_HOUR" = "MISSING_REFRESH_HOUR",
                    "MISSING_REFRESH_NUMBER" = "MISSING_REFRESH_NUMBER"))
+```
 
+```{r Save appended error log with date}
 # save error_log with date
 write_xlsx(error_log_final,
            paste0(root_path, "HSPI-PM/Operations Analytics and Optimization",
                   "/Projects/System Operations/Kronos Analytics/Data",
                   "/Census Refresh Error Logs/",
                   "Census_Refresh_Error_Log_", Sys.Date(),".xlsx"))
+```
