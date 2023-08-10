@@ -9,8 +9,11 @@ knitr::opts_chunk$set(echo = FALSE, error = TRUE, warning = FALSE, message = FAL
 
 library(odbc)
 library(DBI)
+library(glue)
 library(dplyr)
 library(dbplyr)
+library(readxl)
+library(writexl)
 ```
 
 ```{r Determine and set root path and assign database schema}
@@ -41,6 +44,8 @@ root_path <- define_root_path()
 
   
 oao_personal_dsn <- "OAO Cloud DB Greg"
+
+print("Root path determined")
 ```
 
 ```{r Query TARGET table for creation of error log}
@@ -63,6 +68,8 @@ error_log_query <- glue(
 
 # execute error log query
 error_log_data <- dbFetch(dbSendQuery(oao_personal_conn, error_log_query))
+
+print("Error log query executed")
 ```
 
 ```{r Create current error log to be appended to latest error log}
@@ -103,6 +110,8 @@ error_log <- data.frame(
   rename(MISSING_REFRESH_DATE = REFRESH_DATE,
          MISSING_REFRESH_HOUR = REFRESH_HOUR,
          MISSING_REFRESH_NUMBER = REFRESH_NUMBER)
+
+print("Current error log created")
 ```
 
 ```{r Join latest and current error log}
@@ -124,6 +133,8 @@ error_log_final <- error_log %>%
             by = c("MISSING_REFRESH_DATE" = "MISSING_REFRESH_DATE",
                    "MISSING_REFRESH_HOUR" = "MISSING_REFRESH_HOUR",
                    "MISSING_REFRESH_NUMBER" = "MISSING_REFRESH_NUMBER"))
+
+print("New errors appended to error log")
 ```
 
 ```{r Save appended error log with date}
@@ -133,4 +144,6 @@ write_xlsx(error_log_final,
                   "/Projects/System Operations/Kronos Analytics/Data",
                   "/Census Refresh Error Logs/",
                   "Census_Refresh_Error_Log_", Sys.Date(),".xlsx"))
+
+print("SUCCESS: Error log created and saved")
 ```
