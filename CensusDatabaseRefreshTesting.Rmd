@@ -232,7 +232,12 @@ if (nchar(refresh_hour) == 1) {
 data_refresh <- tbl(oao_personal_conn, "DATA_REFRESH") %>%
   filter(REFRESH_NUMBER %in% c("1", "2", "3", "4")) %>%
   collect()
-target_update <- refresh_hour %in% data_refresh$REFRESH_HOUR
+
+if (exists(census_summary)) {
+  target_update <- refresh_hour %in% data_refresh$REFRESH_HOUR
+} else {
+  target_update <- FALSE
+}
 
 print(ifelse(target_update, "This is a refresh time", "This is not a refresh time."))
 ```
