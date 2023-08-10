@@ -226,22 +226,26 @@ rm(census_summary)
 oao_personal_conn <- dbConnect(odbc(),
                                oao_personal_dsn)
 
-# get refresh hour to check if it is one of four refresh numbers
-refresh_hour <- unique(as.character(hour(census_summary$REFRESH_TIME) + 1))
-if (nchar(refresh_hour) == 1) {
-  refresh_hour <- paste0("0", refresh_hour)
-}
-data_refresh <- tbl(oao_personal_conn, "DATA_REFRESH") %>%
-  filter(REFRESH_NUMBER %in% c("1", "2", "3", "4")) %>%
-  collect()
-
-if (exists(census_summary)) {
+if (exists("census_summary")) {
+  # get refresh hour to check if it is one of four refresh numbers
+  refresh_hour <- unique(as.character(hour(census_summary$REFRESH_TIME) + 1))
+  if (nchar(refresh_hour) == 1) {
+    refresh_hour <- paste0("0", refresh_hour)
+  }
+  
+  data_refresh <- tbl(oao_personal_conn, "DATA_REFRESH") %>%
+    filter(REFRESH_NUMBER %in% c("1", "2", "3", "4")) %>%
+    collect()
+  
   target_update <- refresh_hour %in% data_refresh$REFRESH_HOUR
+  
+  print(ifelse(target_update, "This is a refresh time", "This is not a refresh time."))
 } else {
   target_update <- FALSE
+  print("Census summary not found. Check database connections.")
 }
 
-print(ifelse(target_update, "This is a refresh time", "This is not a refresh time."))
+
 ```
 
 ```{r Execute target update query, eval=target_update}
