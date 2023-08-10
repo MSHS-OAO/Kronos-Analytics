@@ -221,6 +221,8 @@ if(nrow(census_summary) > 0) {
 ```
 
 ```{r Check refresh hour to see if it is one of the 4 refresh times}
+rm(census_summary)
+
 oao_personal_conn <- dbConnect(odbc(),
                                oao_personal_dsn)
 
